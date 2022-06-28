@@ -22,6 +22,10 @@
 
 module.exports = function(RED) {
     "use strict";
+    const fs = require('fs');
+    var path = require('path');
+
+
 
     function ConfigNode(n) {
         RED.nodes.createNode(this, n);
@@ -30,6 +34,10 @@ module.exports = function(RED) {
 
         var type = "production";
 
+        console.log(path.resolve(__dirname));
+
+        let rawdata = fs.readFileSync('test.yaml' );
+        console.log(rawdata);
 
         // node.productions = n.productions
         // console.log(node);

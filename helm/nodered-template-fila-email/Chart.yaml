@@ -1,0 +1,13 @@
+appVersion: "1.0"
+#Nome da Aplicação
+name: nodered-template-fila-email
+#Descrição
+description:  nodered-template-fila-email
+#type: application
+#Versão do Chart.yaml
+version: 1.0.0
+#Versão do Aplicativo
+#icon: https://i2.wp.com/foxutech.com/wp-content/uploads/2018/08/what-is-helm.png?fit=800%2C480&ssl=1
+#Desenvolvedor Responsável
+maintainers:
+- name: Arquitetura

@@ -2,7 +2,11 @@
   "name": "node-red-contrib-helm-config",
   "version": "1.0.1",
   "description": "A node-red node to set flow and global context values at start up.",
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "^3.6.0",
+    "jsdom": "^20.0.0",
+    "path": "^0.12.7"
+  },
   "author": {
     "name": "Dean Cording",
     "email": "dean@cording.id.au"

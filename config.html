@@ -1,3 +1,5 @@
+
+
 <!--
   Copyright 2013, 2016 IBM Corp.
   Copyright 2018 Dean Cording  <dean@cording.id.au>
@@ -61,18 +63,16 @@
 </style>
 
 <script type="text/x-red" data-template-name="config">
+    <div id="form-load">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</span></label>
         <input type="text" id="node-input-name">
     </div>
-    <div class="form-row wide-label-amqp-in">
-        <label for="node-input-env"><i class="fa fa-filter"></i>&nbsp;&nbsp;Type</label>
-        <select id="node-input-env">
-          <option value="prd">Prodution</option>
-          <option value="qas">QAS</option>
-          <option value="stg">Stage</option>
-        </select>
+    <div class="form-row">
+        <label for="node-input-script"><i class="fa fa-tag"></i> Script</span></label>
+        <input type="text" id="node-input-script">
     </div>
+    
     <div class="form-row">
         <label for="node-input-active"><i class="fa fa-check-square"></i> Active</label>
         <input type="checkbox" checked value="true" id="node-input-active" style="display: inline-block; width: auto; vertical-align: top;"/>
@@ -80,27 +80,24 @@
     <div class="form-row" style="margin-bottom:0;">
         <label><i class="fa fa-list"></i> Config</span></label>
     </div>
-    <div class="tab">
-        <button class="tablinks" onclick="openProd(event, 'London')">Production</button>
-      
-      </div>
       
       <!-- Tab content -->
       
     <div class="form-row node-input-config-container-row">
         <ol id="node-input-config-container"></ol>
     </div>
+</div>
 </script>
 
 <script type="text/x-red" data-help-name="config">
 
+
     <p>Set flow context or global context properties on start up or as needed.</p>
 
     <h3>Inputs</h3>
-        <p>If the node receives any message, it will apply the configuration properties
-        contained in the Config node.   The trigger message is discarded. This allows you to have
-        alternate configurations and programatically switch between them as needed.</p>
-
+        <p> 
+            "use strict";
+          
     <h3>Outputs</h3>
         <p>None</p>
 
@@ -120,37 +117,20 @@
 </script>
 
 <script type="text/javascript">
-   function openEnv(evt, envName) {
-        // Declare all variables
-        var i, tabcontent, tablinks;
+  
 
-        // Get all elements with class="tabcontent" and hide them
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-
-        // Get all elements with class="tablinks" and remove the class "active"
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-
-        // Show the current tab, and add an "active" class to the button that opened the tab
-        document.getElementById(evtName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
     RED.nodes.registerType('config', {
         color: "#7C9A8C",
         category: 'function',
         defaults: {
             name: { value: "" },
             properties: { value: [{ p: "", pt: "str", to: "", tot: "str" }] },
+            script: {value: ""},
             active: { value: true }
         },
-        inputs: 1,
+        inputs: 0,
         outputs: 0,
-        icon: "inject.png",
+        icon: "assets/icons8-save-16.png",
         label: function () {
             return this.name || "Helm Config PRD";
         },
@@ -158,101 +138,107 @@
             return this.name ? "node_label_italic" : "";
         },
         inputLabels: "trigger",
+        
+
         oneditprepare: function () {
+            
+           
+            function load(config) {
+                "use strict";
+                
+                
+                // $('#node-input-script-name').val("test");
+                console.log(config);
+               
+            }
 
             function resizeConfig(config) {
                 var newWidth = config.width();
                 config.find('.red-ui-typedInput').typedInput("width", newWidth - 150);
 
             }
-            $('#node-input-env').change(function (e) {
-                const envValue = this.value
-                console.log('change: ' + envValue);
-                console.log(this.properties);
-                var properties = $("#node-input-config-container").editableList('items');
-                var node = this;
-                node.properties = [];
-                console.log(properties);
-                properties.each(function (i) {
-                    var property = $(this);
-                    console.log(property);
-                    console.log(property.find(".node-input-config-property-env").text());
-                    var p = {
-                        p: property.find(".node-input-config-property-name").typedInput('value'),
-                        pt: property.find(".node-input-config-property-name").typedInput('type'),
-                        to: property.find(".node-input-config-property-value").typedInput('value'),
-                        tot: property.find(".node-input-config-property-value").typedInput('type')
-                    };
-                    p.pt = property.find(".node-input-config-property-env").text();
-                    p.tot = property.find(".node-input-config-property-env").text();
-                    console.log(p);
 
-                    node.properties.push(p);
+            $('#node-input-config-container').show(function (e) {
+                console.log('#foo is now visible');
+                load();
+             
+
+            }),
+                $('#node-input-name').change(function (e) {
+                    console.log('#foo is now changed');
+                }),
+                $('#node-input-script').change(function (e) {
+                    console.log('#foo is now changed');
+                }),
+
+                // $('#node-input-env').change(function (e) {
+                //     const envValue = this.value
+                //     console.log('change: ' + envValue);
+                //     console.log(this.properties);
+                //     var properties = $("#node-input-config-container").editableList('items');
+                //     var node = this;
+                //     node.properties = [];
+                //     console.log(properties);
+                //     properties.each(function (i) {
+                //         var property = $(this);
+                //         console.log(property);
+                //         console.log(property.find(".node-input-config-property-env").text());
+                //         var p = {
+                //             p: property.find(".node-input-config-property-name").typedInput('value'),
+                //             pt: property.find(".node-input-config-property-name").typedInput('type'),
+                //             to: property.find(".node-input-config-property-value").typedInput('value'),
+                //             tot: property.find(".node-input-config-property-value").typedInput('type')
+                //         };
+                //         p.pt = property.find(".node-input-config-property-env").text();
+                //         p.tot = property.find(".node-input-config-property-env").text();
+                //         console.log(p);
+
+                //         node.properties.push(p);
+                //     });
+
+                //     $("#node-input-config-container").editableList('empty');
+                //     $("#node-input-config-container").editableList('addItems', node.properties);
+
+
+                // })
+
+                $('#node-input-config-container').css('min-height', '300px').css('min-width', '450px').editableList({
+                    addItem: function (container, i, property) {
+
+                        load(container);
+                        
+                        if (!property.hasOwnProperty('p')) {
+                            property = { p: "", pt: "flow", to: "", tot: "str" };
+                        }
+
+                        var row1 = $('<div/>').appendTo(container);
+                        var row2 = $('<div/>', { style: "margin-top:8px;" }).appendTo(container);
+
+                        $('<label/>', { for: "node-input-config-property-name", style: "width:110px; margin-right:10px;" }).text("Property").appendTo(row1);
+
+                        var propertyName = $('<input/>', { style: "width:250px", class: "node-input-config-property-name", type: "text" })
+                            .appendTo(row1)
+                            .typedInput({ types: ['str'] }).focus();
+
+                        $('<label/>', { for: "node-input-config-property-value", style: "width:110px; margin-right:10px;" }).text("Value").appendTo(row2);
+                        var propertyValue = $('<input/>', { style: "width:250px", class: "node-input-config-property-value", type: "text" })
+                            .appendTo(row2)
+                            .typedInput({ types: ['str'] });
+
+                        propertyName.typedInput('value', property.p);
+                        propertyName.typedInput('type', property.pt);
+                        propertyValue.typedInput('value', property.to);
+                        propertyValue.typedInput('type', property.tot);
+
+                        var newWidth = $("#node-input-config-container").width();
+                        resizeConfig(container);
+                    },
+                    resizeItem: resizeConfig,
+                    removable: true,
+                    sortable: false
                 });
 
-                $("#node-input-config-container").editableList('empty');
-                $("#node-input-config-container").editableList('addItems', node.properties);
-
-
-            })
-            $('#node-input-config-container').css('min-height', '300px').css('min-width', '450px').editableList({
-                addItem: function (container, i, property) {
-                    console.log("add item");
-                    console.log(property);
-                    console.log()
-                    var env = $("#node-input-env option:selected").val();
-                    console.log($("#node-input-env option:selected").val());
-
-                    if (!property.hasOwnProperty('p')) {
-                        property = { p: "", pt: env, to: "", tot: env };
-                    }
-
-                    console.log("env: " + env + " pt: " + property.pt);
-                    var row1 = $('<div/>').appendTo(container);
-                    var row2 = $('<div/>', { style: "margin-top:8px;" }).appendTo(container);
-                   
-
-                    $('<label/>', { for: "node-input-config-property-name", style: "width:110px; margin-right:10px;" }).text("Property").appendTo(row1);
-
-                    $('<label/>', { for: "node-input-config-property-env", style: "width:110px; margin-right:10px;", class: "node-input-config-property-env" }).text(property.pt).appendTo(row1).hide();
-                    var propertyName = $('<input/>', { style: "width:250px", class: "node-input-config-property-name", type: "text" })
-                        .appendTo(row1)
-                        .typedInput({ types: ['str'] }).focus()
-
-                    $('<label/>', { for: "node-input-config-property-value", style: "width:110px; margin-right:10px;" }).text("Value").appendTo(row2);
-
-                    var propertyValue = $('<input/>', { style: "width:250px", class: "node-input-config-property-value", type: "text" })
-                        .appendTo(row2)
-                        .typedInput({ types: ['str'] });
-
-
-                    propertyName.typedInput('value', property.p);
-                    propertyName.typedInput('type', property.pt);
-                    propertyValue.typedInput('value', property.to);
-                    propertyValue.typedInput('type', property.tot);
-
-                
-                    var newWidth = $("#node-input-config-container").width();
-                    resizeConfig(container);
-
-                    // if(env != property.pt) {
-                    //     $("#node-input-config-container").hide();
-                    // }
-                  
-
-                },
-                resizeItem: resizeConfig,
-                removable: true,
-                sortable: false
-            });
-          
-
-            let properties = this.properties;
-            setTimeout(function () {
-                $("#node-input-config-container").editableList('addItems', properties);
-
-            }, 200);//wait 2 mseconds
-
+            $("#node-input-config-container").editableList('addItems', this.properties);
 
         },
         oneditsave: function () {
@@ -285,6 +271,7 @@
 
         button: {
             onclick: function () {
+                console.log("button");
                 $.ajax({
                     url: "config/" + this.id,
                     type: "POST",

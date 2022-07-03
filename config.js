@@ -20,52 +20,39 @@
  * SOFTWARE.
  **/
 
-module.exports = function(RED) {
-    "use strict";
-    const fs = require('fs');
-    var path = require('path');
+const { config } = require("process");
 
+module.exports = function (RED) {
+    "use strict";
+    var fs = require("fs");
 
 
     function ConfigNode(n) {
         RED.nodes.createNode(this, n);
 
         var node = this;
+        this.filename = n.name;
 
-        var type = "production";
+        var path = __dirname + "/helm";
+       
 
-        console.log(path.resolve(__dirname));
-
-        let rawdata = fs.readFileSync('test.yaml' );
-        console.log(rawdata);
-
-        // node.productions = n.productions
-        // console.log(node);
-
-        // node.configure = function(node) {
-        //     node.productions.forEach( function(property) {
-
-        //         var value = RED.util.evaluateNodeProperty(property.to, property.tot, node, null)
-
-        //         if (property.pt === 'flow') {
-        //             node.context().flow.set(property.p,value);
-        //         } else if (property.pt === 'global') {
-        //             node.context().global.set(property.p,value);
-        //         }else  if(property.pt === 'str'){
-
-        //         }
-        //     });
-        // };
-        console.log("configNode  executado")
         node.properties = n.properties;
         console.log(node.properties);
+        console.log(this.filename);
+     
+        console.log("configNode  executado")
 
-        node.configure = function(node) {
-            node.properties.forEach( function(property) {
-                
+        node.configure = function (node) {
+
+            var d = new Date();
+            console.log(d.toString());
+          
+            console.log(node.context());
+            node.properties.forEach(function (property) {
+
                 console.log(property);
                 var value = RED.util.evaluateNodeProperty(property.to, property.tot, node, null)
-
+                
                 // if (property.pt === 'flow') {
                 //     node.context().flow.set(property.p,value);
                 // } else if (property.pt === 'global') {
@@ -75,17 +62,34 @@ module.exports = function(RED) {
                 // }
             });
         };
-
-        if (n.active) node.configure(node);
-	
-	node.on("input", function(msg) {
         console.log(node);
-		node.configure(node);
-	});
-    }
-    RED.nodes.registerType("config", ConfigNode);
+        if (n.active) node.configure(node);
 
-    RED.httpAdmin.post("/config/:id", RED.auth.needsPermission("config.write"), function(req,res) {
+        node.on("input", function (msg) {
+            console.log(node);
+            node.configure(node);
+            console.log("input");
+        });
+    }
+
+    RED.nodes.registerType("config", ConfigNode);
+    RED.events.on("nodes:add", function(node) {
+        console.log("A node has been added to the workspace!")
+    })
+
+
+    RED.events.once('flows:stopped', () => {
+        console.log("flows timeout");
+    })
+
+    
+
+    RED.events.once('nodes:change', () => {
+        console.log("flows timeout change");
+
+    })
+   
+    RED.httpAdmin.post("/config/:id", RED.auth.needsPermission("config.write"), function (req, res) {
         var node = RED.nodes.getNode(req.params.id);
         if (node != null) {
             try {
@@ -93,9 +97,9 @@ module.exports = function(RED) {
                 console.log(node);
                 node.configure(node);
                 res.sendStatus(200);
-            } catch(err) {
+            } catch (err) {
                 res.sendStatus(500);
-                node.error("Config failed: "+ err.toString());
+                node.error("Config failed: " + err.toString());
             }
         } else {
             res.sendStatus(404);

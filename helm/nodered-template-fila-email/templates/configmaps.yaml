@@ -22,7 +22,6 @@ data:
   AMQP_HOST_PORT: 5672 #porta: 5672
   AMQP_USER: "usuario"
   AMQP_PASSWORD: "senha"
-
   # END STAGE
 
   

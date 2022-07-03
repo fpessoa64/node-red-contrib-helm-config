@@ -277,6 +277,7 @@
                     type: "POST",
                     success: function (resp) {
                         RED.notify("Configuration reset", "success");
+                        
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status == 404) {

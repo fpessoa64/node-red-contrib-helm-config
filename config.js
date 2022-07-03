@@ -22,23 +22,32 @@
 
 const { config } = require("process");
 
+
 module.exports = function (RED) {
     "use strict";
     var fs = require("fs");
+    const {Util} = require('./util');
 
 
     function ConfigNode(n) {
         RED.nodes.createNode(this, n);
 
         var node = this;
-        this.filename = n.name;
+        this.name = n.name;
+        this.script = n.script;
 
         var path = __dirname + "/helm";
+        console.log(path);
        
 
         node.properties = n.properties;
         console.log(node.properties);
-        console.log(this.filename);
+        console.log(this.name);
+        console.log(this.script);
+
+        const u = new Util();
+
+        u.rename("nodered-template-fila-email");
      
         console.log("configNode  executado")
 
@@ -46,6 +55,7 @@ module.exports = function (RED) {
 
             var d = new Date();
             console.log(d.toString());
+            console.log(`name: ${this.name} script: ${this.script}`);
           
             console.log(node.context());
             node.properties.forEach(function (property) {

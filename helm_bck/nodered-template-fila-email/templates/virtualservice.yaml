@@ -1,0 +1,48 @@
+{{- if .Values.virtualservice.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "nodered-template-fila-email.name" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "nodered-template-fila-email.labels" . | nindent 4 }}
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - default/api-gateway
+  http:
+  - match:
+    - uri:
+        prefix: {{ print .Values.virtualservice.api.url | quote }}
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: "{{ include "nodered-template-fila-email.name" . }}.{{ .Release.Namespace }}.svc.cluster.local"
+        port:
+          number: {{ .Values.service.port }}
+  - match:
+    - uri:
+        prefix: /nodered-template-fila-email/health
+    rewrite:
+      uri: /health
+    route:
+    - destination:
+        host: "{{ include "nodered-template-fila-email.name" . }}.{{ .Release.Namespace }}.svc.cluster.local"
+        port:
+          number: {{ .Values.service.port }}
+        subset: v1
+{{- if .Values.virtualservice.swagger.enabled }}
+  - match:
+    - uri:
+        prefix: {{ print .Values.virtualservice.swagger.url | quote }}
+    rewrite:
+      uri: /swagger
+    route:
+    - destination:
+        host: "{{ include "nodered-template-fila-email.name" . }}.{{ .Release.Namespace }}.svc.cluster.local"
+        port:
+          number: {{ .Values.service.port }}
+{{- end }}
+{{- end }}

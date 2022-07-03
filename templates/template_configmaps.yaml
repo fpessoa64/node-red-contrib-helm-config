@@ -1,0 +1,31 @@
+{{- if .Values.configmap.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "{{SCRIPT_NAME}}" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "{{SCRIPT_LABEL}}" . | nindent 4 }}
+data:
+{{- if eq .Values.configmap.env "prd" }}
+  # BEGIN PRD
+  
+  # END PRD
+
+  
+{{- else if eq .Values.configmap.env "qas" }}
+  # BEGIN QAS
+
+  # END QAS
+
+{{- else if eq .Values.configmap.env "stg" }}
+  # BEGIN STAGE
+  
+  # END STAGE
+
+{{- else if eq .Values.configmap.env "hml" }}
+  # BEGIN HOMOLOGACAO
+ 
+  # END HOMOLOGACAO
+{{- end }}
+{{- end }}

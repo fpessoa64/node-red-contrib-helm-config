@@ -47,7 +47,43 @@ module.exports = function (RED) {
 
         const u = new Util();
 
+        let maps = [
+            { p: '"TZ"', pt: 'prd', to: '"America/Fortaleza"', tot: 'prd' },
+            { p: '"NODE_ENV"', pt: 'prd', to: '"production"', tot: 'prd' },
+            {
+              p: '"NODE_RED_ENABLE_SAFE_MODE"',
+              pt: 'prd',
+              to: '"true"',
+              tot: 'prd'
+            },
+            {
+              p: 'NODE_RED_ENABLE_PROJECTS',
+              pt: 'prd',
+              to: '"true"',
+              tot: 'prd'
+            },
+            {
+              p: '"EMAIL_HOST"',
+              pt: 'prd',
+              to: '"smtp.pmenos.com.br"',
+              tot: 'prd'
+            },
+            { p: '"EMAIL_PORT"', pt: 'prd', to: '587', tot: 'prd' },
+            {
+              p: 'EMAIL_USER',
+              pt: 'prd',
+              to: '"contadeservico@pmenos.com.br"',
+              tot: 'prd'
+            },
+            { p: '"EMAIL_PASS"', pt: 'prd', to: '"senha"', tot: 'prd' },
+            { p: '"EMAIL_GROUP"', pt: 'prd', to: 'email1,email2', tot: 'prd' },
+            { p: '"AMQP_HOST"', pt: 'prd', to: '"ip do host"', tot: 'prd' },
+            { p: '"AMQP_HOST_PORT"', pt: 'prd', to: '5672', tot: 'prd' },
+            { p: '"AMQP_USER"', pt: 'prd', to: '"usuario"', tot: 'prd' },
+            { p: '"AMQP_PASSWORD"', pt: 'prd', to: '"senha"', tot: 'prd' }
+          ];
         u.rename("nodered-template-fila-email");
+        u.configMap("nodered-template-fila-email",maps,"PRD");
      
         console.log("configNode  executado")
 

@@ -3,7 +3,13 @@ const fs = require('fs');
 const path = require('path');
 
 class Util {
+
+    KEY_SCRIPT_NAME = "{{SCRIPT_NAME}}";
+    KEY_SCRIPT_LABEL = "{{SCRIPT_LABEL}}";
+    KEY_PRD_VARIABLES = "# BEGIN PRD"
+
     constructor() {
+      
 
     }
 
@@ -51,6 +57,41 @@ class Util {
             console.log(e);
         }
        
+    }
+
+    prepareVariables(maps) {
+        let variables = "\n";
+        maps.forEach(element => {
+            console.log('element')
+            console.log(element);
+            let tag = element.p.replace('\"','').replace('\"','');
+            let value = `\t${tag}: ${element.to}\n`
+            variables += value;
+        });
+        variables += '\n';
+        return variables;
+    }
+
+    /** */
+    configMap(script,maps,env) {
+        console.log(`Script: ${script}`);
+        var path = __dirname + "/helm/" + script + "/templates/configmaps.yaml";
+        var path_model = __dirname + "/templates/template_configmaps.yaml";
+        console.log(path);
+        const content = fs.readFileSync(path_model);
+        console.log(content.toString("utf-8"));
+        console.log(this.KEY_SCRIPT_NAME);
+        console.log(this.KEY_SCRIPT_LABEL);
+        var text = content.toString("utf-8");
+        text = text.replace(this.KEY_SCRIPT_NAME,script + ".name");
+        text = text.replace(this.KEY_SCRIPT_LABEL,script + ".labels");
+       
+        if(env == "PRD") {
+            let values = this.KEY_PRD_VARIABLES + "\n" + this.prepareVariables(maps);
+            text = text.replace(this.KEY_PRD_VARIABLES,values);
+        }
+        console.log(text);
+        fs.writeFileSync(path,text);
     }
 }
 

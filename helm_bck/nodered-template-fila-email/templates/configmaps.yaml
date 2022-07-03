@@ -1,0 +1,61 @@
+{{- if .Values.configmap.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "nodered-template-fila-email.name" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "nodered-template-fila-email.labels" . | nindent 4 }}
+data:
+{{- if eq .Values.configmap.env "prd" }}
+  # BEGIN PRD
+  NODE_ENV: "production"
+  NODE_RED_ENABLE_SAFE_MODE: "true"
+  NODE_RED_ENABLE_PROJECTS: "true"
+  TZ: "America/Fortaleza"
+  EMAIL_HOST: "smtp.pmenos.com.br"
+  EMAIL_PORT: 587
+  EMAIL_USER: "contadeservico@pmenos.com.br"
+  EMAIL_PASS: "senha"
+  EMAIL_GROUP: "email1,email2"
+  AMQP_HOST: "ip do host" #127.0.0.1
+  AMQP_HOST_PORT: 5672 #porta: 5672
+  AMQP_USER: "usuario"
+  AMQP_PASSWORD: "senha"
+  # END PRD
+
+  
+{{- else if eq .Values.configmap.env "qas" }}
+  # BEGIN QAS
+  NODE_ENV: "qas"
+  NODE_RED_ENABLE_SAFE_MODE: "true"
+  NODE_RED_ENABLE_PROJECTS: "true"
+  TZ: "America/Fortaleza"
+  # END QAS
+
+{{- else if eq .Values.configmap.env "stg" }}
+  # BEGIN STAGE
+  NODE_ENV: "stage"
+  NODE_RED_ENABLE_SAFE_MODE: "true"
+  NODE_RED_ENABLE_PROJECTS: "true"
+  TZ: "America/Fortaleza"
+  EMAIL_HOST: "smtp.pmenos.com.br"
+  EMAIL_PORT: 587
+  EMAIL_USER: "contadeservico@pmenos.com.br"
+  EMAIL_PASS: "senha"
+  EMAIL_GROUP: "email1,email2"
+  AMQP_HOST: "ip do host" #127.0.0.1
+  AMQP_HOST_PORT: 5672 #porta: 5672
+  AMQP_USER: "usuario"
+  AMQP_PASSWORD: "senha"
+  # END STAGE
+
+{{- else if eq .Values.configmap.env "hml" }}
+  # BEGIN HOMOLOGACAO
+  NODE_ENV: "homologacao"
+  NODE_RED_ENABLE_SAFE_MODE: "true"
+  NODE_RED_ENABLE_PROJECTS: "true"
+  TZ: "America/Fortaleza"
+  # END HOMOLOGACAO
+{{- end }}
+{{- end }}

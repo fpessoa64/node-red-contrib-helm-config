@@ -24,7 +24,7 @@ spec:
           number: {{ .Values.service.port }}
   - match:
     - uri:
-        prefix: /nodered-template-fila-email/health
+        prefix: /nodered-template-fila-email.name/health
     rewrite:
       uri: /health
     route:

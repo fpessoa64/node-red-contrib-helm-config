@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "nodered-template-fila-email2.name" . }}
+  name: {{ include "nodered-template-fila-email.name" . }}
   namespace: {{ .Release.Namespace | quote }}
   labels:
-    {{- include "nodered-template-fila-email2.labels" . | nindent 4 }}
+    {{- include "nodered-template-fila-email.labels" . | nindent 4 }}
 data:
 {{- if eq .Values.configmap.env "prd" }}
   # BEGIN PRD
@@ -25,8 +25,7 @@ data:
 	AMQP_PASSWORD: "senha"
 
 
-  
-  # END PRD
+ # END PRD
 
   
 {{- else if eq .Values.configmap.env "qas" }}
@@ -35,9 +34,13 @@ data:
   # END QAS
 
 {{- else if eq .Values.configmap.env "stg" }}
-  # BEGIN STAGE
-  
-  # END STAGE
+  # BEGIN STG
+
+	TESTE2: TESTE2
+	TST3: TST3
+
+
+ # END STG
 
 {{- else if eq .Values.configmap.env "hml" }}
   # BEGIN HOMOLOGACAO

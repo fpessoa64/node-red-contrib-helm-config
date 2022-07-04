@@ -1,0 +1,48 @@
+{{- if .Values.virtualservice.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "{{SCRIPT_NAME}}" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "{{SCRIPT_LABEL}}" . | nindent 4 }}
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - default/api-gateway
+  http:
+  - match:
+    - uri:
+        prefix: {{ print .Values.virtualservice.api.url | quote }}
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: "{{ include "{{SCRIPT_NAME}}" . }}.{{ .Release.Namespace }}.svc.cluster.local"
+        port:
+          number: {{ .Values.service.port }}
+  - match:
+    - uri:
+        prefix: /{{SCRIPT_NAME}}/health
+    rewrite:
+      uri: /health
+    route:
+    - destination:
+        host: "{{ include "{{SCRIPT_NAME}}" . }}.{{ .Release.Namespace }}.svc.cluster.local"
+        port:
+          number: {{ .Values.service.port }}
+        subset: v1
+{{- if .Values.virtualservice.swagger.enabled }}
+  - match:
+    - uri:
+        prefix: {{ print .Values.virtualservice.swagger.url | quote }}
+    rewrite:
+      uri: /swagger
+    route:
+    - destination:
+        host: "{{ include "{{SCRIPT_NAME}}" . }}.{{ .Release.Namespace }}.svc.cluster.local"
+        port:
+          number: {{ .Values.service.port }}
+{{- end }}
+{{- end }}

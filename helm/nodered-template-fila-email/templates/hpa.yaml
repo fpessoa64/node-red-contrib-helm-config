@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "nodered-template-fila-email2.name" . }}
+  name: {{ include "nodered-template-fila-email.name" . }}
   labels:
-    {{- include "nodered-template-fila-email2.labels" . | nindent 4 }}
+    {{- include "nodered-template-fila-email.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "nodered-template-fila-email2.name" . }}
+    name: {{ include "nodered-template-fila-email.name" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

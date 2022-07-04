@@ -9,19 +9,7 @@ metadata:
 data:
 {{- if eq .Values.configmap.env "prd" }}
   # BEGIN PRD
-  NODE_ENV: "production"
-  NODE_RED_ENABLE_SAFE_MODE: "true"
-  NODE_RED_ENABLE_PROJECTS: "true"
-  TZ: "America/Fortaleza"
-  EMAIL_HOST: "smtp.pmenos.com.br"
-  EMAIL_PORT: 587
-  EMAIL_USER: "contadeservico@pmenos.com.br"
-  EMAIL_PASS: "senha"
-  EMAIL_GROUP: "email1,email2"
-  AMQP_HOST: "ip do host" #127.0.0.1
-  AMQP_HOST_PORT: 5672 #porta: 5672
-  AMQP_USER: "usuario"
-  AMQP_PASSWORD: "senha"
+ 
   # END PRD
 
   

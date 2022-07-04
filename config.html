@@ -64,10 +64,17 @@
 
 <script type="text/x-red" data-template-name="config">
     <div id="form-load">
-    <div class="form-row">
+    <!-- <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</span></label>
         <input type="text" id="node-input-name">
-    </div>
+    </div> -->
+    <div class="form-row >
+        <label for="node-input-name"><i class="fa fa-filter"></i>&nbsp;&nbsp;Name</label>
+        <select id="node-input-name">
+          <option value="PRD">PRD</option>
+          <option value="STG">STG</option>
+        </select>
+      </div>
     <div class="form-row">
         <label for="node-input-script"><i class="fa fa-tag"></i> Script</span></label>
         <input type="text" id="node-input-script">

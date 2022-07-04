@@ -6,8 +6,11 @@ class Util {
 
     KEY_SCRIPT_NAME = "{{SCRIPT_NAME}}";
     KEY_SCRIPT_LABEL = "{{SCRIPT_LABEL}}";
-    KEY_PRD_VARIABLES = "# BEGIN PRD"
-    KEY_SELECTOR_LABELS = "{{SELECTOR_LABELS}}";//.selectorLabels
+    KEY_SELECTOR_LABELS = "{{SELECTOR_LABELS}}";
+    KEY_BEGIN_PRD = "# BEGIN PRD";
+    KEY_END_PRD = "# END PRD";
+    KEY_BEGIN_STG = "# BEGIN STG";
+    KEY_END_STG = "# END STG";
 
     constructor() {
       
@@ -60,6 +63,11 @@ class Util {
        
     }
 
+    /**
+     * 
+     * @param {*} maps 
+     * @returns 
+     */
     prepareVariables(maps) {
         let variables = "\n";
         maps.forEach(element => {
@@ -73,30 +81,117 @@ class Util {
         return variables;
     }
 
-    /** */
-    configMap(script,maps,env) {
+    setConfigMapName(text,script) {
+        let index = text.indexOf("name: {{ include ",0);
+        if(index > 0) {
+            let end = text.indexOf(". }}",index);
+            if(end > 0) {
+                console.log(text.substring(index,end));
+                let found = text.substring(index,end);
+                let replace = "name: {{ include " + "\"" + script.trim() + ".name" + "\" ";
+                text = text.replace(new RegExp(found, "g"), replace);
+                console.log(text);
+                //fs.writeFileSync(path,text);
+            }
+        }
+        return text;
+    }
+
+    setConfigMapLabel(text,script) {
+        let index = text.indexOf("{{- include ",0);
+        if(index > 0) {
+            let end = text.indexOf(" . | nindent",index);
+            if(end > 0) {
+                console.log(text.substring(index,end));
+                let found = text.substring(index,end);
+                let replace = "{{- include " + "\"" + script.trim() + ".labels" + "\"";
+                text = text.replace(new RegExp(found, "g"), replace);
+                console.log(text);
+            }
+        }
+        return text;
+    }
+
+    setConfigMapVarPRD(text,maps) {
+      
+        let index = text.indexOf(this.KEY_BEGIN_PRD,0);
+        if(index > 0) {
+            let end = text.indexOf(this.KEY_END_PRD,index);
+            if(end > 0) {
+                console.log(text.substring(index,end));
+                let found = text.substring(index,end);
+                let replace = this.KEY_BEGIN_PRD +"\n" +  this.prepareVariables(maps) + "\n" + " ";
+
+                text = text.replace(new RegExp(found, "g"), replace);
+                console.log(text);
+            }
+        }
+        return text;
+    }
+
+    setConfigMapVarSTG(text,maps) {
+      
+        let index = text.indexOf(this.KEY_BEGIN_STG,0);
+        if(index > 0) {
+            let end = text.indexOf(this.KEY_END_STG,index);
+            if(end > 0) {
+                console.log(text.substring(index,end));
+                let found = text.substring(index,end);
+                let replace = this.KEY_BEGIN_STG +"\n" +  this.prepareVariables(maps) + "\n" + " ";
+
+                text = text.replace(new RegExp(found, "g"), replace);
+                console.log(text);
+            }
+        }
+        return text;
+    }
+
+    set_config_map(script,maps,env) {
         console.log(`Script: ${script}`);
         var path = __dirname + "/helm/" + script + "/templates/configmaps.yaml";
         var path_model = __dirname + "/templates/template_configmaps.yaml";
-        console.log(path);
-        const content = fs.readFileSync(path_model);
-        console.log(content.toString("utf-8"));
-        console.log(this.KEY_SCRIPT_NAME);
-        console.log(this.KEY_SCRIPT_LABEL);
-        var text = content.toString("utf-8");
-        // text = text.replace(this.KEY_SCRIPT_NAME,script + ".name");
-        // text = text.replace(this.KEY_SCRIPT_LABEL,script + ".labels");
 
-        text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + ".name");
-        text = text.replace(new RegExp(this.KEY_SCRIPT_LABEL, "g"), script + ".labels");
+        const content = fs.readFileSync(path);
+        console.log(content.toString("utf-8"));
+        var text = content.toString("utf-8");
+        text = this.setConfigMapName(text,script);
+        text = this.setConfigMapLabel(text,script);
        
         if(env == "PRD") {
-            let values = this.KEY_PRD_VARIABLES + "\n" + this.prepareVariables(maps);
-            text = text.replace(this.KEY_PRD_VARIABLES,values);
+            text = this.setConfigMapVarPRD(text,maps);
+        }else if(env == "STG") {
+            text = this.setConfigMapVarSTG(text,maps);
         }
-        console.log(text);
+
         fs.writeFileSync(path,text);
+
     }
+
+    /** */
+    // configMap(script,maps,env) {
+    //     console.log(`Script: ${script}`);
+    //     var path = __dirname + "/helm/" + script + "/templates/configmaps.yaml";
+    //     var path_model = __dirname + "/templates/template_configmaps.yaml";
+
+    //     const content = fs.readFileSync(path_model);
+    //     console.log(content.toString("utf-8"));
+    //     console.log(this.KEY_SCRIPT_NAME);
+    //     console.log(this.KEY_SCRIPT_LABEL);
+    //     var text = content.toString("utf-8");
+
+    //     text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + ".name");
+    //     text = text.replace(new RegExp(this.KEY_SCRIPT_LABEL, "g"), script + ".labels");
+       
+    //     if(env == "PRD") {
+    //         let values = this.KEY_PRD_VARIABLES + "\n" + this.prepareVariables(maps);
+    //         text = text.replace(this.KEY_PRD_VARIABLES,values);
+    //     }else if(env == "STG") {
+    //         let values = this.KEY_STG_VARIABLES + "\n" + this.prepareVariables(maps);
+    //         text = text.replace(this.KEY_STG_VARIABLES,values);
+    //     }
+    //     console.log(text);
+    //     fs.writeFileSync(path,text);
+    // }
 
     /**
      * 
@@ -104,7 +199,7 @@ class Util {
      * @param {*} maps 
      * @param {*} env 
      */
-    deployment(script) {
+    set_deployment(script) {
         console.log(`Script: ${script}`);
         var path = __dirname + "/helm/" + script + "/templates/deployment.yaml";
         var path_model = __dirname + "/templates/template_deployment.yaml";
@@ -122,7 +217,7 @@ class Util {
         fs.writeFileSync(path,text);
     }
 
-    destinationRule(script) {
+    set_destination_rule(script) {
         console.log(`Script: ${script}`);
         var path = __dirname + "/helm/" + script + "/templates/destinationRule.yaml";
         var path_model = __dirname + "/templates/template_destinationRule.yaml";
@@ -141,7 +236,7 @@ class Util {
         fs.writeFileSync(path,text);
     }
 
-    hpa(script) {
+    set_hpa(script) {
         console.log(`Script: ${script}`);
         var path = __dirname + "/helm/" + script + "/templates/hpa.yaml";
         var path_model = __dirname + "/templates/template_hpa.yaml";
@@ -161,7 +256,7 @@ class Util {
     }
     ////nodered-template-fila-email.selectorLabels
 
-    service(script) {
+    set_service(script) {
         console.log(`Script: ${script}`);
         var path = __dirname + "/helm/" + script + "/templates/service.yaml";
         var path_model = __dirname + "/templates/template_service.yaml";
@@ -180,30 +275,58 @@ class Util {
         console.log(text);
         fs.writeFileSync(path,text);
     }
+
+    set_virtualService(script) {
+        console.log(`Script: ${script}`);
+        var path = __dirname + "/helm/" + script + "/templates/virtualservice.yaml";
+        var path_model = __dirname + "/templates/template_virtualservice.yaml";
+        console.log(path);
+        const content = fs.readFileSync(path_model);
+        console.log(content.toString("utf-8"));
+        console.log(this.KEY_SCRIPT_NAME);
+        console.log(this.KEY_SCRIPT_LABEL);
+        var text = content.toString("utf-8");
+
+        text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + ".name");
+        text = text.replace(new RegExp(this.KEY_SCRIPT_LABEL, "g"), script + ".labels");
+        
+        console.log(text);
+        fs.writeFileSync(path,text);
+    }
+
+    set_chart(script) {
+        console.log(`Script: ${script}`);
+        var path = __dirname + "/helm/" + script + "/Chart.yaml";
+        var path_model = __dirname + "/templates/template_chart.yaml";
+        console.log(path);
+        const content = fs.readFileSync(path_model);
+        console.log(content.toString("utf-8"));
+        console.log(this.KEY_SCRIPT_NAME);
+     
+        var text = content.toString("utf-8");
+
+        text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + "");
+   
+        console.log(text);
+        fs.writeFileSync(path,text);
+    }
+    set_values(script) {
+        console.log(`Script: ${script}`);
+        var path = __dirname + "/helm/" + script + "/values.yaml";
+        var path_model = __dirname + "/templates/template_values.yaml";
+        console.log(path);
+        const content = fs.readFileSync(path_model);
+        console.log(content.toString("utf-8"));
+        console.log(this.KEY_SCRIPT_NAME);
+     
+        var text = content.toString("utf-8");
+        text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + "");
+   
+        console.log(text);
+        fs.writeFileSync(path,text);
+    }
 }
 
-
-// function rename(script){
-//     console.log(script);
-//     console.log(__dirname);
-//     var path = __dirname + "/helm";
-//     console.log(path);
-//     if (fs.existsSync(path)) {
-//         console.log('Directory exists!');
-//     } else {
-//         console.log('Directory not found.');
-//     }
-
-
-// }   
-
-// function alpha(msj) {
-//     console.log('In alpha: ' + msj);
-// }
-
-// function beta(msj) {
-//     console.log('In beta: ' + msj);
-// }
 
 module.exports = {
     Util

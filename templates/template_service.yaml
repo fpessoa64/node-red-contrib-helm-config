@@ -14,5 +14,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "nodered-template-fila-email.selectorLabels" . | nindent 4 }}
+    {{- include "{{SELECTOR_LABELS}}" . | nindent 4 }}
 {{- end }}

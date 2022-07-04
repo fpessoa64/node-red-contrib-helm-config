@@ -295,7 +295,7 @@ class Util {
         console.log(text);
         fs.writeFileSync(path,text);
     }
-    set_values(script,service_enabled,service_url) {
+    set_values(script,service_enabled,service_url,service_swagger) {
         console.log(`Script: ${script}`);
         var path = this.get_dirname() + "/helm/" + script + "/values.yaml";
         var path_model = this.get_dirname()+ "/templates/template_values.yaml";
@@ -310,8 +310,7 @@ class Util {
             let replace = service_enabled ? "true" : "false";
             text = text.replace(new RegExp(this.KEY_ENABLED_SERVICE, "g"), replace);
             text = text.replace(new RegExp(this.KEY_URL_API, "g"), service_url);
-  
-            text = text.replace(new RegExp(this.KEY_URL_SWAGGER, "g"), service_url);
+            text = text.replace(new RegExp(this.KEY_URL_SWAGGER, "g"), service_url_swagger);
 
         }else {
             text = text.replace(new RegExp(this.KEY_ENABLED_SERVICE, "g"), "false");

@@ -314,10 +314,12 @@ class Util {
 
         }else {
             text = text.replace(new RegExp(this.KEY_ENABLED_SERVICE, "g"), "false");
+            text = text.replace(new RegExp(this.KEY_URL_API, "g"), "");
+            text = text.replace(new RegExp(this.KEY_URL_SWAGGER, "g"), "");
         }
-   
         console.log(text);
         fs.writeFileSync(path,text);
+       
     }
 }
 

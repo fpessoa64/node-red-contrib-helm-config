@@ -25,49 +25,12 @@
         width: 65% !important;
     }
 
-    /* Style the tab */
-    .tab {
-        overflow: hidden;
-        border: 1px solid #ccc;
-        background-color: #f1f1f1;
-    }
-
-    /* Style the buttons that are used to open the tab content */
-    .tab button {
-        background-color: inherit;
-        float: left;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-    }
-
-    /* Change background color of buttons on hover */
-    .tab button:hover {
-        background-color: #ddd;
-    }
-
-    /* Create an active/current tablink class */
-    .tab button.active {
-        background-color: #ccc;
-    }
-
-    /* Style the tab content */
-    .tabcontent {
-        display: none;
-        padding: 6px 12px;
-        border: 1px solid #ccc;
-        border-top: none;
-    }
+  
 </style>
 
 <script type="text/x-red" data-template-name="config">
     <div id="form-load">
-    <!-- <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</span></label>
-        <input type="text" id="node-input-name">
-    </div> -->
+
     <div class="form-row >
         <label for="node-input-name"><i class="fa fa-filter"></i>&nbsp;&nbsp;Name</label>
         <select id="node-input-name">
@@ -139,7 +102,8 @@
         outputs: 0,
         icon: "assets/icons8-save-16.png",
         label: function () {
-            return this.name || "Helm Config PRD";
+            //return this.name || "Helm Config";
+            return this.name ? ("helm " + this.name) : "Helm Config";
         },
         labelStyle: function () {
             return this.name ? "node_label_italic" : "";

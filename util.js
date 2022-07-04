@@ -175,32 +175,6 @@ class Util {
 
     }
 
-    /** */
-    // configMap(script,maps,env) {
-    //     console.log(`Script: ${script}`);
-    //     var path = __dirname + "/helm/" + script + "/templates/configmaps.yaml";
-    //     var path_model = __dirname + "/templates/template_configmaps.yaml";
-
-    //     const content = fs.readFileSync(path_model);
-    //     console.log(content.toString("utf-8"));
-    //     console.log(this.KEY_SCRIPT_NAME);
-    //     console.log(this.KEY_SCRIPT_LABEL);
-    //     var text = content.toString("utf-8");
-
-    //     text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + ".name");
-    //     text = text.replace(new RegExp(this.KEY_SCRIPT_LABEL, "g"), script + ".labels");
-       
-    //     if(env == "PRD") {
-    //         let values = this.KEY_PRD_VARIABLES + "\n" + this.prepareVariables(maps);
-    //         text = text.replace(this.KEY_PRD_VARIABLES,values);
-    //     }else if(env == "STG") {
-    //         let values = this.KEY_STG_VARIABLES + "\n" + this.prepareVariables(maps);
-    //         text = text.replace(this.KEY_STG_VARIABLES,values);
-    //     }
-    //     console.log(text);
-    //     fs.writeFileSync(path,text);
-    // }
-
     /**
      * 
      * @param {*} script 

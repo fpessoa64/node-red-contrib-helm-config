@@ -1,0 +1,16 @@
+{{- if .Values.virtualservice.enabled -}}
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ template "{{SCRIPT_NAME}}" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "{{SCRIPT_LABEL}}" . | nindent 4 }}  
+spec:
+  host: "{{ include "{{SCRIPT_NAME}}" . }}.{{ .Release.Namespace }}.svc.cluster.local"
+  subsets:
+  - name: {{ .Values.version | quote }}
+    labels:
+      app: {{ include "{{SCRIPT_NAME}}" . }}
+      version: {{ .Values.version | quote }}
+{{- end }}

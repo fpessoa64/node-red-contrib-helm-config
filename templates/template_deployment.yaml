@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "{{SCRIPT_NAME}}" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "{{SCRIPT_LABEL}}" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "{{SCRIPT_LABEL}}" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "{{SCRIPT_LABEL}}" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      {{- if .Values.security.enabled }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ print .Values.image.repository ":" .Values.image.tag | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          {{- if or .Values.configmap.enabled .Values.secret.enabled }}
+          envFrom:
+          {{- if .Values.configmap.enabled }}
+          - configMapRef:
+              name: "{{ include "{{SCRIPT_NAME}}" . }}"
+          {{- end }}
+          {{- if .Values.secret.enabled }}
+          - secretRef:
+              name: "{{ .Values.secret.name }}"
+          {{- end }}
+          {{- end }}
+          {{- if .Values.livenessProbe.enabled }}    
+          livenessProbe:
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            httpGet:
+               path: {{ .Values.livenessProbe.httpGet.path }}
+               port: {{ .Values.livenessProbe.httpGet.port }}
+               scheme: {{ .Values.livenessProbe.httpGet.scheme }}
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            httpGet:
+               path: {{ .Values.readinessProbe.httpGet.path }}
+               port: {{ .Values.readinessProbe.httpGet.port }}
+               scheme: {{ .Values.readinessProbe.httpGet.scheme }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | trim | nindent 12 }}
+          {{- if .Values.security.enabled }}
+          securityContext:
+            {{- toYaml .Values.securityContext | trim | nindent 12 }}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "nodered-template-fila-email.name" . }}
+  name: {{ include "nodered-template-fila-email2.name" . }}
   namespace: {{ .Release.Namespace | quote }}
   labels:
-    {{- include "nodered-template-fila-email.labels" . | nindent 4 }}
+    {{- include "nodered-template-fila-email2.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "nodered-template-fila-email.labels" . | nindent 6 }}
+      {{- include "nodered-template-fila-email2.labels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "nodered-template-fila-email.labels" . | nindent 8 }}
+        {{- include "nodered-template-fila-email2.labels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -36,7 +36,7 @@ spec:
           envFrom:
           {{- if .Values.configmap.enabled }}
           - configMapRef:
-              name: "{{ include "nodered-template-fila-email.name" . }}"
+              name: "{{ include "nodered-template-fila-email2.name" . }}"
           {{- end }}
           {{- if .Values.secret.enabled }}
           - secretRef:

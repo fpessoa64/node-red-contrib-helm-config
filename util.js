@@ -7,6 +7,7 @@ class Util {
     KEY_SCRIPT_NAME = "{{SCRIPT_NAME}}";
     KEY_SCRIPT_LABEL = "{{SCRIPT_LABEL}}";
     KEY_PRD_VARIABLES = "# BEGIN PRD"
+    KEY_SELECTOR_LABELS = "{{SELECTOR_LABELS}}";//.selectorLabels
 
     constructor() {
       
@@ -83,13 +84,99 @@ class Util {
         console.log(this.KEY_SCRIPT_NAME);
         console.log(this.KEY_SCRIPT_LABEL);
         var text = content.toString("utf-8");
-        text = text.replace(this.KEY_SCRIPT_NAME,script + ".name");
-        text = text.replace(this.KEY_SCRIPT_LABEL,script + ".labels");
+        // text = text.replace(this.KEY_SCRIPT_NAME,script + ".name");
+        // text = text.replace(this.KEY_SCRIPT_LABEL,script + ".labels");
+
+        text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + ".name");
+        text = text.replace(new RegExp(this.KEY_SCRIPT_LABEL, "g"), script + ".labels");
        
         if(env == "PRD") {
             let values = this.KEY_PRD_VARIABLES + "\n" + this.prepareVariables(maps);
             text = text.replace(this.KEY_PRD_VARIABLES,values);
         }
+        console.log(text);
+        fs.writeFileSync(path,text);
+    }
+
+    /**
+     * 
+     * @param {*} script 
+     * @param {*} maps 
+     * @param {*} env 
+     */
+    deployment(script) {
+        console.log(`Script: ${script}`);
+        var path = __dirname + "/helm/" + script + "/templates/deployment.yaml";
+        var path_model = __dirname + "/templates/template_deployment.yaml";
+        console.log(path);
+        const content = fs.readFileSync(path_model);
+        console.log(content.toString("utf-8"));
+        console.log(this.KEY_SCRIPT_NAME);
+        console.log(this.KEY_SCRIPT_LABEL);
+        var text = content.toString("utf-8");
+
+        text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + ".name");
+        text = text.replace(new RegExp(this.KEY_SCRIPT_LABEL, "g"), script + ".labels");
+        
+        console.log(text);
+        fs.writeFileSync(path,text);
+    }
+
+    destinationRule(script) {
+        console.log(`Script: ${script}`);
+        var path = __dirname + "/helm/" + script + "/templates/destinationRule.yaml";
+        var path_model = __dirname + "/templates/template_destinationRule.yaml";
+        console.log(path);
+        const content = fs.readFileSync(path_model);
+        console.log(content.toString("utf-8"));
+        console.log(this.KEY_SCRIPT_NAME);
+        console.log(this.KEY_SCRIPT_LABEL);
+        var text = content.toString("utf-8");
+
+        text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + ".name");
+        text = text.replace(new RegExp(this.KEY_SCRIPT_LABEL, "g"), script + ".labels");
+        
+
+        console.log(text);
+        fs.writeFileSync(path,text);
+    }
+
+    hpa(script) {
+        console.log(`Script: ${script}`);
+        var path = __dirname + "/helm/" + script + "/templates/hpa.yaml";
+        var path_model = __dirname + "/templates/template_hpa.yaml";
+        console.log(path);
+        const content = fs.readFileSync(path_model);
+        console.log(content.toString("utf-8"));
+        console.log(this.KEY_SCRIPT_NAME);
+        console.log(this.KEY_SCRIPT_LABEL);
+        var text = content.toString("utf-8");
+
+        text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + ".name");
+        text = text.replace(new RegExp(this.KEY_SCRIPT_LABEL, "g"), script + ".labels");
+        
+
+        console.log(text);
+        fs.writeFileSync(path,text);
+    }
+    ////nodered-template-fila-email.selectorLabels
+
+    service(script) {
+        console.log(`Script: ${script}`);
+        var path = __dirname + "/helm/" + script + "/templates/service.yaml";
+        var path_model = __dirname + "/templates/template_service.yaml";
+        console.log(path);
+        const content = fs.readFileSync(path_model);
+        console.log(content.toString("utf-8"));
+        console.log(this.KEY_SCRIPT_NAME);
+        console.log(this.KEY_SCRIPT_LABEL);
+        var text = content.toString("utf-8");
+
+        text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + ".name");
+        text = text.replace(new RegExp(this.KEY_SCRIPT_LABEL, "g"), script + ".labels");
+        text = text.replace(new RegExp(this.KEY_SELECTOR_LABELS, "g"), script + ".selectorLabels");
+        
+
         console.log(text);
         fs.writeFileSync(path,text);
     }

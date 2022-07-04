@@ -295,7 +295,7 @@ class Util {
         console.log(text);
         fs.writeFileSync(path,text);
     }
-    set_values(script,service_enabled,service_url,service_swagger) {
+    set_values(script,service_enabled,service_url,service_url_swagger) {
         console.log(`Script: ${script}`);
         var path = this.get_dirname() + "/helm/" + script + "/values.yaml";
         var path_model = this.get_dirname()+ "/templates/template_values.yaml";

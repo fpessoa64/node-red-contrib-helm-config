@@ -35,6 +35,9 @@ module.exports = function (RED) {
         var node = this;
         this.name = n.name;
         this.script = n.script;
+        this.enabled = n.enabled;
+        this.url_api = n.url_api;
+        this.url_swagger = n.url_swagger;
 
         var path = __dirname + "/helm";
         console.log(path);
@@ -44,6 +47,9 @@ module.exports = function (RED) {
         console.log(node.properties);
         console.log(this.name);
         console.log(this.script);
+        console.log(this.enabled);
+        console.log(this.url_api);
+        console.log(this.url_swagger);
 
         const u = new Util();
 
@@ -64,7 +70,7 @@ module.exports = function (RED) {
             u.set_service(this.script);  
             u.set_virtualService(this.script); 
             u.set_chart(this.script);
-            u.set_values(this.script);
+            u.set_values(this.script,this.enabled,this.url_api,this.url_swagger);
         }
      
         console.log("configNode  executado")

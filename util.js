@@ -11,6 +11,9 @@ class Util {
     KEY_END_PRD = "# END PRD";
     KEY_BEGIN_STG = "# BEGIN STG";
     KEY_END_STG = "# END STG";
+    KEY_ENABLED_SERVICE = "{{ENABLED_SERVICE}}";
+    KEY_URL_API = "{{URL_API}}";
+    KEY_URL_SWAGGER = "{{URL_SWAGGER}}";
 
     constructor() {
       
@@ -292,7 +295,7 @@ class Util {
         console.log(text);
         fs.writeFileSync(path,text);
     }
-    set_values(script) {
+    set_values(script,service_enabled,service_url) {
         console.log(`Script: ${script}`);
         var path = this.get_dirname() + "/helm/" + script + "/values.yaml";
         var path_model = this.get_dirname()+ "/templates/template_values.yaml";
@@ -303,6 +306,16 @@ class Util {
      
         var text = content.toString("utf-8");
         text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + "");
+        if(service_url && service_url.length > 0) {
+            let replace = service_enabled ? "true" : "false";
+            text = text.replace(new RegExp(this.KEY_ENABLED_SERVICE, "g"), replace);
+            text = text.replace(new RegExp(this.KEY_URL_API, "g"), service_url);
+  
+            text = text.replace(new RegExp(this.KEY_URL_SWAGGER, "g"), service_url);
+
+        }else {
+            text = text.replace(new RegExp(this.KEY_ENABLED_SERVICE, "g"), "false");
+        }
    
         console.log(text);
         fs.writeFileSync(path,text);

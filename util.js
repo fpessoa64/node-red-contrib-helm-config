@@ -17,7 +17,14 @@ class Util {
 
     }
 
-    increaseSalary() {
+    get_dirname() {
+        let path = __dirname;
+        let index = path.indexOf("node_modules");
+        if(index > 0) {
+            return path.substring(0,index);
+        }
+        return path;
+        
     }
 
     isFile = fileName => {
@@ -36,9 +43,9 @@ class Util {
         try {
 
             console.log(script);
-            console.log(__dirname);
+            console.log(this.get_dirname());
     
-            var path = __dirname + "/helm";
+            var path = this.get_dirname() + "/helm";
             console.log(path);
     
             if (fs.existsSync(path)) {
@@ -148,8 +155,9 @@ class Util {
 
     set_config_map(script,maps,env) {
         console.log(`Script: ${script}`);
-        var path = __dirname + "/helm/" + script + "/templates/configmaps.yaml";
-        var path_model = __dirname + "/templates/template_configmaps.yaml";
+   
+        var path = this.get_dirname() + "/helm/" + script + "/templates/configmaps.yaml";
+        var path_model = this.get_dirname() + "/templates/template_configmaps.yaml";
 
         const content = fs.readFileSync(path);
         console.log(content.toString("utf-8"));
@@ -201,8 +209,8 @@ class Util {
      */
     set_deployment(script) {
         console.log(`Script: ${script}`);
-        var path = __dirname + "/helm/" + script + "/templates/deployment.yaml";
-        var path_model = __dirname + "/templates/template_deployment.yaml";
+        var path = this.get_dirname()+ "/helm/" + script + "/templates/deployment.yaml";
+        var path_model = this.get_dirname() + "/templates/template_deployment.yaml";
         console.log(path);
         const content = fs.readFileSync(path_model);
         console.log(content.toString("utf-8"));
@@ -219,8 +227,8 @@ class Util {
 
     set_destination_rule(script) {
         console.log(`Script: ${script}`);
-        var path = __dirname + "/helm/" + script + "/templates/destinationRule.yaml";
-        var path_model = __dirname + "/templates/template_destinationRule.yaml";
+        var path = this.get_dirname() + "/helm/" + script + "/templates/destinationRule.yaml";
+        var path_model = this.get_dirname()+ "/templates/template_destinationRule.yaml";
         console.log(path);
         const content = fs.readFileSync(path_model);
         console.log(content.toString("utf-8"));
@@ -238,8 +246,8 @@ class Util {
 
     set_hpa(script) {
         console.log(`Script: ${script}`);
-        var path = __dirname + "/helm/" + script + "/templates/hpa.yaml";
-        var path_model = __dirname + "/templates/template_hpa.yaml";
+        var path = this.get_dirname() + "/helm/" + script + "/templates/hpa.yaml";
+        var path_model = this.get_dirname()+ "/templates/template_hpa.yaml";
         console.log(path);
         const content = fs.readFileSync(path_model);
         console.log(content.toString("utf-8"));
@@ -258,8 +266,8 @@ class Util {
 
     set_service(script) {
         console.log(`Script: ${script}`);
-        var path = __dirname + "/helm/" + script + "/templates/service.yaml";
-        var path_model = __dirname + "/templates/template_service.yaml";
+        var path = this.get_dirname()+ "/helm/" + script + "/templates/service.yaml";
+        var path_model = this.get_dirname() + "/templates/template_service.yaml";
         console.log(path);
         const content = fs.readFileSync(path_model);
         console.log(content.toString("utf-8"));
@@ -278,8 +286,8 @@ class Util {
 
     set_virtualService(script) {
         console.log(`Script: ${script}`);
-        var path = __dirname + "/helm/" + script + "/templates/virtualservice.yaml";
-        var path_model = __dirname + "/templates/template_virtualservice.yaml";
+        var path = this.get_dirname() + "/helm/" + script + "/templates/virtualservice.yaml";
+        var path_model = this.get_dirname() + "/templates/template_virtualservice.yaml";
         console.log(path);
         const content = fs.readFileSync(path_model);
         console.log(content.toString("utf-8"));
@@ -296,8 +304,8 @@ class Util {
 
     set_chart(script) {
         console.log(`Script: ${script}`);
-        var path = __dirname + "/helm/" + script + "/Chart.yaml";
-        var path_model = __dirname + "/templates/template_chart.yaml";
+        var path = this.get_dirname() + "/helm/" + script + "/Chart.yaml";
+        var path_model = this.get_dirname() + "/templates/template_chart.yaml";
         console.log(path);
         const content = fs.readFileSync(path_model);
         console.log(content.toString("utf-8"));
@@ -312,8 +320,8 @@ class Util {
     }
     set_values(script) {
         console.log(`Script: ${script}`);
-        var path = __dirname + "/helm/" + script + "/values.yaml";
-        var path_model = __dirname + "/templates/template_values.yaml";
+        var path = this.get_dirname() + "/helm/" + script + "/values.yaml";
+        var path_model = this.get_dirname()+ "/templates/template_values.yaml";
         console.log(path);
         const content = fs.readFileSync(path_model);
         console.log(content.toString("utf-8"));

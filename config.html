@@ -50,6 +50,11 @@
     <div class="form-row" style="margin-bottom:0;">
         <label><i class="fa fa-list"></i> Config</span></label>
     </div>
+    <h4>Service</h4>
+    <div class="form-row">
+        <label for="node-input-enabled"><i class="fa fa-check-square"></i> Enabled</label>
+        <input type="checkbox" checked value="true" id="node-input-enabled" style="display: inline-block; width: auto; vertical-align: top;"/>
+    </div>
       
       <!-- Tab content -->
       
@@ -96,7 +101,8 @@
             name: { value: "" },
             properties: { value: [{ p: "", pt: "str", to: "", tot: "str" }] },
             script: {value: ""},
-            active: { value: true }
+            active: { value: true },
+            enabled: {value: true}
         },
         inputs: 0,
         outputs: 0,

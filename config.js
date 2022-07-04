@@ -36,8 +36,8 @@ module.exports = function (RED) {
         this.name = n.name;
         this.script = n.script;
         this.enabled = n.enabled;
-        this.url_api = n.url_api;
-        this.url_swagger = n.url_swagger;
+        this.url_api = n.url;
+        this.url_swagger = n.swagger;
 
         var path = __dirname + "/helm";
         console.log(path);

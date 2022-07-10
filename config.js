@@ -95,6 +95,7 @@ module.exports = function (RED) {
 
                 console.log(property);
                 var value = RED.util.evaluateNodeProperty(property.to, property.tot, node, null)
+                u.remove_var(property.p);
                 
                 // if (property.pt === 'flow') {
                 //     node.context().flow.set(property.p,value);

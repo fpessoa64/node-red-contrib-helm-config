@@ -96,6 +96,7 @@ module.exports = function (RED) {
             });
             
             var vars = u.get_vars();
+            u.print_vars();
             vars.forEach(element => {
                 node.properties.push(element);
             });

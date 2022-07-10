@@ -349,6 +349,10 @@ class Util {
             if(end > 0) {
                 let str = text.substring(index,end);
                 console.log(str);
+                let lines = str.split('\n');
+                lines.forEach(element => {
+                    console.log(element);
+                });
             }
         }
     }

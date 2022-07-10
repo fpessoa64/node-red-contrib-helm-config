@@ -354,11 +354,26 @@ class Util {
                    
                     if(!(line.indexOf(begin_mark) >= 0 || line.indexOf(end_mark) >= 0 || line.length < 2)) {
                         console.log('line:' + line);
+                        var item = this.prepare_var(line);
+                        if(item) {
+                            vars.push(item);
+                        }
+
                     }
         
                 });
             }
         }
+        console.log(vars);
+    }
+    
+    prepare_var(line) {
+        let values = line.split(":");
+        if(values.length == 2) {
+            var item = {p: values[0],pt: 'prd',to: values[1],tot:'prd'};
+            return item;
+        }
+        return null;
     }
 }
 

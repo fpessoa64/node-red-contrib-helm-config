@@ -95,7 +95,8 @@ module.exports = function (RED) {
                 u.remove_var(e.p);
             });
             
-            u.get_vars.forEach(element => {
+            var vars = u.get_vars();
+            vars.forEach(element => {
                 node.properties.push(element);
             });
           

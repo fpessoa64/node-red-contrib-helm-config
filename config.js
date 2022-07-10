@@ -72,6 +72,8 @@ module.exports = function (RED) {
             // u.set_chart(this.script);
             // u.set_values(this.script,this.enabled,this.url_api,this.url_swagger);
             u.loadVariables(this.script,this.name);
+            u.remove_var("TZ");
+            u.print_vars();
         }
      
         console.log("configNode  executado")

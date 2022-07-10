@@ -381,7 +381,7 @@ class Util {
         var i = 0;
         while (i < this.vars.length) {
             if(this.vars[i].p === var_name) {
-                array.splice(i, 1);
+                this.vars.splice(i, 1);
             } else {
                 ++i;
             }

@@ -352,7 +352,7 @@ class Util {
                 let lines = str.split('\n');
                 lines.forEach(line => {
                    
-                    if(!(line.indexOf(begin_mark) >= 0 || line.indexOf(end_mark) >= 0 || line.length < 1)) {
+                    if(!(line.indexOf(begin_mark) >= 0 || line.indexOf(end_mark) >= 0 || line.length < 2)) {
                         console.log('line:' + line);
                     }
         

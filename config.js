@@ -77,7 +77,7 @@ module.exports = function (RED) {
         }
 
         node.properties.forEach(e => {
-            u.remove_var(e.to);
+            u.remove_var(e.p);
         });
 
         u.print_vars();

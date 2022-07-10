@@ -388,6 +388,7 @@ class Util {
         }
     }
     print_vars() {
+        console.log("Print vars");
         this.vars.forEach(element => {
             console.log(element);
         });

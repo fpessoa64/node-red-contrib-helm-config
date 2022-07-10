@@ -351,7 +351,7 @@ class Util {
                 console.log(str);
                 let lines = str.split('\n');
                 lines.forEach(element => {
-                    console.log(element);
+                    console.log('line:' + element);
                 });
             }
         }

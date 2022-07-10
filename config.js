@@ -99,6 +99,7 @@ module.exports = function (RED) {
             u.print_vars();
             vars.forEach(element => {
                 node.properties.push(element);
+                console.log(element);
             });
           
             console.log(node.context());
@@ -106,7 +107,7 @@ module.exports = function (RED) {
 
                 console.log(property);
                 var value = RED.util.evaluateNodeProperty(property.to, property.tot, node, null)
-                u.remove_var(property.p);
+                //u.remove_var(property.p);
                 
                 // if (property.pt === 'flow') {
                 //     node.context().flow.set(property.p,value);

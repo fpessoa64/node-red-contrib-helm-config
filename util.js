@@ -321,6 +321,37 @@ class Util {
         fs.writeFileSync(path,text);
        
     }
+
+    loadVariables(script,env) {
+        var path = this.get_dirname() + "/helm/" + script + "/templates/configmaps.yaml";
+        const content = fs.readFileSync(path);
+        var text = content.toString("utf-8");
+        var begin_mark = KEY_BEGIN_PRD
+        var end_mark = this.KEY_END_PRD;
+        if(env == "PRD") {
+            begin_mark = KEY_BEGIN_PRD
+            end_mark = this.KEY_END_PRD;
+        }else if(env == "STG") {
+            begin_mark = KEY_BEGIN_STG
+            end_mark = this.KEY_END_STG;
+        }
+       
+        load_vars(begin_mark,end_mark,text);
+
+
+    }
+
+    load_vars(begin_mark,end_mark,text){
+        let vars = [];
+        let index = text.indexOf(this.KEY_BEGIN_PRD,0);
+        if(index > 0) {
+            let end = text.indexOf(this.KEY_END_PRD,index);
+            if(end > 0) {
+                let str = text.substring(index,end);
+                console.log(str);
+            }
+        }
+    }
 }
 
 

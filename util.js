@@ -366,11 +366,11 @@ class Util {
         }
         console.log(vars);
     }
-    
+
     prepare_var(line) {
         let values = line.split(":");
         if(values.length == 2) {
-            var item = {p: values[0],pt: 'prd',to: values[1],tot:'prd'};
+            var item = {p: values[0].trim(),pt: 'prd',to: values[1].trim(),tot:'prd'};
             return item;
         }
         return null;

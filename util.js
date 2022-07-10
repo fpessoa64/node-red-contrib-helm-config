@@ -14,9 +14,10 @@ class Util {
     KEY_ENABLED_SERVICE = "{{ENABLED_SERVICE}}";
     KEY_URL_API = "{{URL_API}}";
     KEY_URL_SWAGGER = "{{URL_SWAGGER}}";
+    vars =[];
 
     constructor() {
-      
+      this.vars = [];
 
     }
 
@@ -342,7 +343,7 @@ class Util {
     }
 
     load_vars(begin_mark,end_mark,text){
-        let vars = [];
+        this.vars = [];
         let index = text.indexOf(begin_mark,0);
         if(index > 0) {
             let end = text.indexOf(end_mark,index);
@@ -356,7 +357,7 @@ class Util {
                         console.log('line:' + line);
                         var item = this.prepare_var(line);
                         if(item) {
-                            vars.push(item);
+                            this.vars.push(item);
                         }
 
                     }
@@ -364,7 +365,7 @@ class Util {
                 });
             }
         }
-        console.log(vars);
+        console.log(this.vars);
     }
 
     prepare_var(line) {

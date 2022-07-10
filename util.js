@@ -336,7 +336,7 @@ class Util {
             end_mark = this.KEY_END_STG;
         }
        
-        load_vars(begin_mark,end_mark,text);
+        this.load_vars(begin_mark,end_mark,text);
 
 
     }

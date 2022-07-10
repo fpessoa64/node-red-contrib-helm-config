@@ -393,6 +393,10 @@ class Util {
             console.log(element);
         });
     }
+
+    get_vars() {
+        return this.vars;
+    }
 }
 
 

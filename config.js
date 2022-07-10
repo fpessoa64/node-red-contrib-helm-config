@@ -89,6 +89,15 @@ module.exports = function (RED) {
             var d = new Date();
             console.log(d.toString());
             console.log(`name: ${this.name} script: ${this.script}`);
+            u.loadVariables(this.script,this.name);
+
+            node.properties.forEach(e => {
+                u.remove_var(e.p);
+            });
+            
+            u.get_vars.forEach(element => {
+                node.properties.push(element);
+            });
           
             console.log(node.context());
             node.properties.forEach(function (property) {
@@ -105,6 +114,9 @@ module.exports = function (RED) {
 
                 // }
             });
+
+           
+
         };
         console.log(node);
         if (n.active) node.configure(node);

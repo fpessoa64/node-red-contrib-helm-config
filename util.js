@@ -350,8 +350,12 @@ class Util {
                 let str = text.substring(index,end);
                 console.log(str);
                 let lines = str.split('\n');
-                lines.forEach(element => {
-                    console.log('line:' + element);
+                lines.forEach(line => {
+                   
+                    if(!line.indexOf(begin_mark) > 0 || line.indexOf(end_mark) > 0) {
+                        console.log('line:' + element);
+                    }
+        
                 });
             }
         }

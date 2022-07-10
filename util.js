@@ -353,7 +353,7 @@ class Util {
                 lines.forEach(line => {
                    
                     if(!line.indexOf(begin_mark) > 0 || line.indexOf(end_mark) > 0) {
-                        console.log('line:' + element);
+                        console.log('line:' + line);
                     }
         
                 });

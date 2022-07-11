@@ -53,6 +53,7 @@ class YAML {
                         if(data) {
                             console.log(`found: ${data}`)
                             const index =doc.services.nodered.environment.indexOf(data);
+                            console.log(`found: ${index}`)
                             if(index >=0 )
                                 doc.services.nodered.environment.splice(index,1);
                         }

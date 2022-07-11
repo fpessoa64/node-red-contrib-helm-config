@@ -51,6 +51,7 @@ class YAML {
                         var line = `${v.p} = ${v.to}`;
                         var data = doc.services.nodered.environment.filter(item => item.indexOf(v.p) >= 0);
                         if(data) {
+                            console.log(`found: ${data}`)
                             const index =doc.services.nodered.environment.indexOf(data);
                             if(index >=0 )
                                 doc.services.nodered.environment.splice(index,1);

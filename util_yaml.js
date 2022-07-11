@@ -22,7 +22,7 @@ class YAML {
     }
 
     remove_item(key,vars) {
-        doc.services.nodered.environment
+
         var index = 0;
         var found = -1;
         vars.forEach(element => {

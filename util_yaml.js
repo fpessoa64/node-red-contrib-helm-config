@@ -46,7 +46,7 @@ class YAML {
 
                     });
         
-                    doc.services.nodered.environment.clear();
+                    //doc.services.nodered.environment.clear();
                     vars.forEach(v => {
                         var line = `${v.p} = ${v.to}`;
                         const index = keys.indexOf(v.p);

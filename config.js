@@ -66,7 +66,7 @@ module.exports = function (RED) {
             console.log("atualiza");
 
             const yaml = new YAML();
-            yaml.set_vars("PRD",this.maps);
+            yaml.set_vars("PRD",node.properties);
 
 
             // u.rename(this.script);

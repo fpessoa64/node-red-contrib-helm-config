@@ -52,8 +52,7 @@ module.exports = function (RED) {
         console.log(this.url_api);
         console.log(this.url_swagger);
 
-        const yaml = new YAML();
-        yaml.load_vars("PRD");
+      
 
         const u = new Util();
 
@@ -65,6 +64,10 @@ module.exports = function (RED) {
 
         if(this.name == "PRD" ||  this.name == "STG"  &&   this.script  && this.script.length > 0) {
             console.log("atualiza");
+
+            const yaml = new YAML();
+            yaml.set_vars("PRD",this.maps);
+
 
             // u.rename(this.script);
             // u.set_config_map(this.script,maps,this.name);

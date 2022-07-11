@@ -21,7 +21,7 @@ class YAML {
         
     }
 
-    load_vars(env) {
+    set_vars(env,vars) {
         try {
             var path = this.get_dirname() +  "/docker-compose.yaml";
 
@@ -32,6 +32,17 @@ class YAML {
                 console.log(e)
             });
 
+            vars.forEach(v => {
+                var line = `- ${v.p} = ${v.to}`;
+                doc.services.nodered.environment.push(line)
+
+            });
+
+            
+
+            fs.writeFileSync(path,yaml.safeDump(doc));
+
+           
           } catch (e) {
             console.log(e);
           }

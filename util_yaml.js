@@ -37,7 +37,7 @@ class YAML {
 
 
             let keys= ["TT=23","TT1=23"];
-            doc.services.nodered.environment.push(keys)
+            doc.services.nodered.environment.push("TX=1")
             
             vars.forEach(v => {
                 var line = `- ${v.p} = ${v.to}`;

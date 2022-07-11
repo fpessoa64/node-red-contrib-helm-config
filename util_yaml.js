@@ -34,7 +34,8 @@ class YAML {
 
             vars.forEach(v => {
                 var line = `- ${v.p} = ${v.to}`;
-                doc.services.nodered.environment.push(line)
+                var values = [ v.p,v.to]
+                doc.services.nodered.environment.push(values)
 
             });
 

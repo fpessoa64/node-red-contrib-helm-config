@@ -32,13 +32,9 @@ class YAML {
                 console.log(e)
             });
 
-           
-            doc.services.nodered.environment.push("TX=1")
-            
+            doc.services.nodered.environment.clear();
             vars.forEach(v => {
                 var line = `${v.p} = ${v.to}`;
-         
-               
                 doc.services.nodered.environment.push(line)
 
             });

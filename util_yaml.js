@@ -64,7 +64,7 @@ class YAML {
         
                     //doc.services.nodered.environment = [];
                     vars.forEach(v => {
-                        var line = `${v.p} = ${v.to}`;
+                        var line = `${v.p}=${v.to}`;
                         this.remove_item(v.p,doc.services.nodered.environment);
 
                         // var data = doc.services.nodered.environment.filter(item => item.indexOf(v.p) >= 0);

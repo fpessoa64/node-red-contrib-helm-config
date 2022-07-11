@@ -160,7 +160,16 @@ class Util {
     set_config_map(script,maps,env) {
         console.log(`Script: ${script}`);
    
-        var path = this.get_dirname() + "/helm/" + script + "/templates/configmaps.yaml";
+        var path = this.get_dirname(const yaml = require('js-yaml');
+        const fs   = require('fs');
+        
+        // Get document, or throw exception on error
+        try {
+          const doc = yaml.load(fs.readFileSync('/home/ixti/example.yml', 'utf8'));
+          console.log(doc);
+        } catch (e) {
+          console.log(e);
+        }) + "/helm/" + script + "/templates/configmaps.yaml";
         var path_model = this.get_dirname() + "/templates/template_configmaps.yaml";
 
         const content = fs.readFileSync(path);
@@ -292,7 +301,16 @@ class Util {
         var text = content.toString("utf-8");
 
         text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + "");
-   
+        const yaml = require('js-yaml');
+        const fs   = require('fs');
+        
+        // Get document, or throw exception on error
+        try {
+          const doc = yaml.load(fs.readFileSync('/home/ixti/example.yml', 'utf8'));
+          console.log(doc);
+        } catch (e) {
+          console.log(e);
+        }
         console.log(text);
         fs.writeFileSync(path,text);
     }
@@ -360,7 +378,12 @@ class Util {
                             this.vars.push(item);
                         }
 
-                    }
+                    }ry {
+                        const doc = yaml.load(fs.readFileSync('/home/ixti/example.yml', 'utf8'));
+                        console.log(doc);
+                      } catch (e) {
+                        console.log(e);
+                      }
         
                 });
             }

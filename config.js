@@ -27,6 +27,7 @@ module.exports = function (RED) {
     "use strict";
     var fs = require("fs");
     const {Util} = require('./util');
+    const {YAML} = require('./util_yaml')
 
 
     function ConfigNode(n) {
@@ -50,6 +51,9 @@ module.exports = function (RED) {
         console.log(this.enabled);
         console.log(this.url_api);
         console.log(this.url_swagger);
+
+        const yaml = new YAML();
+        yaml.load_vars("PRD");
 
         const u = new Util();
 
@@ -83,6 +87,8 @@ module.exports = function (RED) {
         u.print_vars();
      
         console.log("configNode  executado");
+
+        
 
         node.configure = function (node) {
 

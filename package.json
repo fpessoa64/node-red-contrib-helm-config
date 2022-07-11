@@ -4,6 +4,7 @@
   "description": "A node-red node to set flow and global context values at start up.",
   "dependencies": {
     "jquery": "^3.6.0",
+    "js-yaml": "^4.1.0",
     "jsdom": "^20.0.0",
     "path": "^0.12.7"
   },

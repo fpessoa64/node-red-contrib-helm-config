@@ -63,22 +63,20 @@ module.exports = function (RED) {
         console.log("name: " + this.name);
 
         if(this.name == "PRD" ||  this.name == "STG"  &&   this.script  && this.script.length > 0) {
-            console.log("atualiza");
 
             const yaml = new YAML();
-            yaml.set_vars("PRD",node.properties);
+            yaml.set_vars(this.name,node.properties);
 
-
-            // u.rename(this.script);
-            // u.set_config_map(this.script,maps,this.name);
-            // u.set_deployment(this.script);
-            // u.set_destination_rule(this.script);
-            // u.set_hpa(this.script);
-            // u.set_service(this.script);  
-            // u.set_virtualService(this.script); 
-            // u.set_chart(this.script);
-            // u.set_values(this.script,this.enabled,this.url_api,this.url_swagger);
-            // u.loadVariables(this.script,this.name);
+            u.rename(this.script);
+            u.set_config_map(this.script,maps,this.name);
+            u.set_deployment(this.script);
+            u.set_destination_rule(this.script);
+            u.set_hpa(this.script);
+            u.set_service(this.script);  
+            u.set_virtualService(this.script); 
+            u.set_chart(this.script);
+            u.set_values(this.script,this.enabled,this.url_api,this.url_swagger);
+            u.loadVariables(this.script,this.name);
 
         }
 
@@ -87,11 +85,6 @@ module.exports = function (RED) {
         });
 
         u.print_vars();
-     
-        console.log("configNode  executado");
-
-        
-
         node.configure = function (node) {
 
             var d = new Date();
@@ -107,7 +100,6 @@ module.exports = function (RED) {
             u.print_vars();
             vars.forEach(element => {
                 node.properties.push(element);
-                console.log(element);
             });
           
             console.log(node.context());

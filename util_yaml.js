@@ -40,7 +40,7 @@ class YAML {
 
             
 
-            fs.writeFileSync(path,yaml.safeDump(doc));
+            fs.writeFileSync(path,yaml.dump(doc));
 
            
           } catch (e) {

@@ -46,13 +46,19 @@ class YAML {
 
                     });
         
-                    //doc.services.nodered.environment.clear();
+                    //doc.services.nodered.environment = [];
                     vars.forEach(v => {
                         var line = `${v.p} = ${v.to}`;
-                        const index = keys.indexOf(v.p);
-                        if(index >= 0) {
-                            doc.services.nodered.environment.splice(index,1);
+                        var data = doc.services.nodered.environment.filter(item => item.indexOf(v.p) >= 0);
+                        if(data) {
+                            const index =doc.services.nodered.environment.indexOf(data);
+                            if(index >=0 )
+                                doc.services.nodered.environment.splice(index,1);
                         }
+                        // const index = keys.indexOf(v.p);
+                        // if(index >= 0) {
+                        //     doc.services.nodered.environment.splice(index,1);
+                        // }
                         doc.services.nodered.environment.push(line)
                         console.log("push: " + line);
         

@@ -27,6 +27,9 @@ class YAML {
 
             const doc = yaml.load(fs.readFileSync(path, 'utf8'));
             console.log(doc);
+            doc.environment.forEach(e => {
+                console.log(e)
+            });
 
           } catch (e) {
             console.log(e);

@@ -50,10 +50,11 @@ class YAML {
                     vars.forEach(v => {
                         var line = `${v.p} = ${v.to}`;
                         const index = keys.indexOf(v.p);
-                        if(index > 0) {
+                        if(index >= 0) {
                             doc.services.nodered.environment.splice(index,1);
                         }
                         doc.services.nodered.environment.push(line)
+                        console.log("push: " + line);
         
                     });
                     fs.writeFileSync(path,yaml.dump(doc));

@@ -32,11 +32,7 @@ class YAML {
                 console.log(e)
             });
 
-            let value1= "TT=23";
-            let value2= "TX=24";
-
-
-            let keys= ["TT=23","TT1=23"];
+           
             doc.services.nodered.environment.push("TX=1")
             
             vars.forEach(v => {

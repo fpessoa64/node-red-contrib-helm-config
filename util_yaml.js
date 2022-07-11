@@ -32,10 +32,18 @@ class YAML {
                 console.log(e)
             });
 
+            let value1= "TT=23";
+            let value2= "TX=24";
+
+
+            let keys= ["TT=23","TT1=23"];
+            doc.services.nodered.environment.push(keys)
+            
             vars.forEach(v => {
                 var line = `- ${v.p} = ${v.to}`;
-                var values = [ v.p,v.to]
-                doc.services.nodered.environment.push(values)
+         
+               
+                //doc.services.nodered.environment.push(values)
 
             });
 

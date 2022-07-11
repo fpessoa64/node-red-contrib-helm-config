@@ -1,6 +1,6 @@
-const yaml = require('js-yaml');
-const fs   = require('fs');
 
+const fs   = require('fs');
+const yaml = require('js-yaml');
 
 class YAML {
 

@@ -20,29 +20,46 @@ class YAML {
         return path;
         
     }
-
+    /**
+     * 
+     * @param {*} env 
+     * @param {*} vars 
+     */
     set_vars(env,vars) {
         try {
-            var path = this.get_dirname() +  "/docker-compose.yaml";
 
-            const doc = yaml.load(fs.readFileSync(path, 'utf8'));
-            console.log(doc);
-          
-            doc.services.nodered.environment.forEach(e => {
-                console.log(e)
-            });
+            if(vars.length > 0) {
+                if(env == "PRD" || env == "STG") {
+                    
+                    var path = this.get_dirname() +  "/docker-compose.yaml";
+                    if(env == "STG") {
+                        path = this.get_dirname() +  "/docker-compose-stg.yaml";
+                    }
 
-            doc.services.nodered.environment.clear();
-            vars.forEach(v => {
-                var line = `${v.p} = ${v.to}`;
-                doc.services.nodered.environment.push(line)
+                    const doc = yaml.load(fs.readFileSync(path, 'utf8'));
+                    console.log(doc);
+                    var keys = [];
+                    doc.services.nodered.environment.forEach(e => {
+                        console.log(e)
+                        keys.push(e.split("=")[0].replace("-","").trim());
+                        console.log(keys);
 
-            });
-
-            
-
-            fs.writeFileSync(path,yaml.dump(doc));
-
+                    });
+        
+                    doc.services.nodered.environment.clear();
+                    vars.forEach(v => {
+                        var line = `${v.p} = ${v.to}`;
+                        const index = keys.indexOf(v.p);
+                        if(index > 0) {
+                            doc.services.nodered.environment.splice(index,1);
+                        }
+                        doc.services.nodered.environment.push(line)
+        
+                    });
+                    fs.writeFileSync(path,yaml.dump(doc));
+                }
+               
+            }
            
           } catch (e) {
             console.log(e);

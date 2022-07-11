@@ -11,6 +11,16 @@ class YAML {
 
     }
 
+    get_dirname() {
+        let path = __dirname;
+        let index = path.indexOf("node_modules");
+        if(index > 0) {
+            return path.substring(0,index);
+        }
+        return path;
+        
+    }
+
     load_vars(env) {
         try {
             var path = this.get_dirname() +  "/docker-compose.yaml";

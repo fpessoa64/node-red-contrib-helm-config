@@ -54,33 +54,11 @@ class YAML {
 
                     const doc = yaml.load(fs.readFileSync(path, 'utf8'));
                     console.log(doc);
-                    // var keys = [];
-                    // doc.services.nodered.environment.forEach(e => {
-                    //     console.log(e)
-                    //     keys.push(e.split("=")[0].replace("-","").trim());
-                    //     console.log(keys);
 
-                    // });
-        
-                    //doc.services.nodered.environment = [];
                     vars.forEach(v => {
                         var line = `${v.p}=${v.to}`;
                         this.remove_item(v.p,doc.services.nodered.environment);
-
-                        // var data = doc.services.nodered.environment.filter(item => item.indexOf(v.p) >= 0);
-                        // if(data) {
-                        //     console.log(`found: ${data}`)
-                        //     const index =doc.services.nodered.environment.indexOf(data);
-                        //     console.log(`found: ${index}`)
-                        //     if(index >=0 )
-                        //         doc.services.nodered.environment.splice(index,1);
-                        // }
-                        // const index = keys.indexOf(v.p);
-                        // if(index >= 0) {
-                        //     doc.services.nodered.environment.splice(index,1);
-                        // }
                         doc.services.nodered.environment.push(line)
-                        console.log("push: " + line);
         
                     });
                     fs.writeFileSync(path,yaml.dump(doc));

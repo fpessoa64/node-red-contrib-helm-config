@@ -1,39 +1,39 @@
 
-const fs   = require('fs');
+const fs = require('fs');
 const yaml = require('js-yaml');
 
 class YAML {
 
-    vars =[];
+    vars = [];
 
     constructor() {
-      this.vars = [];
+        this.vars = [];
 
     }
 
     get_dirname() {
         let path = __dirname;
         let index = path.indexOf("node_modules");
-        if(index > 0) {
-            return path.substring(0,index);
+        if (index > 0) {
+            return path.substring(0, index);
         }
         return path;
-        
+
     }
 
-    remove_item(key,vars) {
+    remove_item(key, vars) {
 
         var index = 0;
         var found = -1;
         vars.forEach(element => {
-            if(element.indexOf(key) >= 0) {
+            if (element.indexOf(key) >= 0) {
                 found = index;
             }
             index++;
         });
 
-        if(found >=0 ) {
-            vars.splice(found,1);
+        if (found >= 0) {
+            vars.splice(found, 1);
         }
     }
     /**
@@ -41,15 +41,15 @@ class YAML {
      * @param {*} env 
      * @param {*} vars 
      */
-    set_vars(env,vars) {
+    set_vars(env, vars) {
         try {
 
-            if(vars.length > 0) {
-                if(env == "PRD" || env == "STG") {
-                    
-                    var path = this.get_dirname() +  "/docker-compose.yaml";
-                    if(env == "STG") {
-                        path = this.get_dirname() +  "/docker-compose-stg.yaml";
+            if (vars.length > 0) {
+                if (env == "PRD" || env == "STG") {
+
+                    var path = this.get_dirname() + "/docker-compose.yaml";
+                    if (env == "STG") {
+                        path = this.get_dirname() + "/docker-compose-stg.yaml";
                     }
 
                     const doc = yaml.load(fs.readFileSync(path, 'utf8'));
@@ -57,18 +57,17 @@ class YAML {
 
                     vars.forEach(v => {
                         var line = `${v.p}=${v.to}`;
-                        this.remove_item(v.p,doc.services.nodered.environment);
+                        this.remove_item(v.p, doc.services.nodered.environment);
                         doc.services.nodered.environment.push(line)
-        
+
                     });
-                    fs.writeFileSync(path,yaml.dump(doc));
+                    fs.writeFileSync(path, yaml.dump(doc));
                 }
-               
             }
-           
-          } catch (e) {
+
+        } catch (e) {
             console.log(e);
-          }
+        }
     }
 }
 

@@ -40,7 +40,7 @@ module.exports = function (RED) {
         this.url_api = n.url;
         this.url_swagger = n.swagger;
 
-        var path = __dirname + "/helm";
+        var path = "/data/" + "/helm";
         console.log(path);
        
 

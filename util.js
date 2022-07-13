@@ -25,7 +25,8 @@ class Util {
      * @returns 
      */
     get_dirname() {
-        let path = __dirname;
+        //let path = __dirname;
+        let path = "/data";
         let index = path.indexOf("node_modules");
         if (index > 0) {
             return path.substring(0, index);
@@ -304,7 +305,7 @@ class Util {
      * COnfigura Virtual Service
      * @param {*} script 
      */
-    set_virtualService(script) {
+    set_virtualService(script) {__dirname
         console.log(`Script: ${script}`);
         var path = this.get_dirname() + "/helm/" + script + "/templates/virtualservice.yaml";
         var path_model = this.get_dirname() + "/templates/template_virtualservice.yaml";

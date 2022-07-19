@@ -99,7 +99,7 @@ class Util {
      * @returns 
      */
     prepareVariables(maps) {
-        //let variables = "\n";
+        let variables = "";
         maps.forEach(element => {
             let tag = element.p.replace('\"', '').replace('\"', '');
             let value = `\t${tag}: ${element.to}\n`

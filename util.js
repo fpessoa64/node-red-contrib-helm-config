@@ -187,6 +187,7 @@ class Util {
                 let replace = "{{- if eq .Values.configmap.env \"prd\" }}\n";
                 replace += this.prepareVariables(maps);
                 replace += "\n";
+                console.log("replace: " + replace)
                 text = text.replace(new RegExp(found, "g"), replace);
             }
         }

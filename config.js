@@ -69,14 +69,14 @@ module.exports = function (RED) {
 
             u.rename(this.script);
             u.set_config_map(this.script,maps,this.name);
-            u.set_deployment(this.script);
-            u.set_destination_rule(this.script);
-            u.set_hpa(this.script);
-            u.set_service(this.script);  
-            u.set_virtualService(this.script); 
-            u.set_chart(this.script);
-            u.set_values(this.script,this.enabled,this.url_api,this.url_swagger);
-            u.loadVariables(this.script,this.name);
+            // u.set_deployment(this.script);
+            // u.set_destination_rule(this.script);
+            // u.set_hpa(this.script);
+            // u.set_service(this.script);  
+            // u.set_virtualService(this.script); 
+            // u.set_chart(this.script);
+            // u.set_values(this.script,this.enabled,this.url_api,this.url_swagger);
+            // u.loadVariables(this.script,this.name);
 
         }
 

@@ -197,7 +197,7 @@ class Util {
         console.log(`Script: ${script}`);
 
         var path = this.get_dirname() + "/helm/" + script + "/templates/configmaps.yaml";
-        var path_model = this.get_dirname() + "/templates/template_configmaps.yaml";
+        //var path_model = this.get_dirname() + "/templates/template_configmaps.yaml";
 
         const content = fs.readFileSync(path);
         //console.log(content.toString("utf-8"));
@@ -205,11 +205,11 @@ class Util {
         text = this.setConfigMapName(text, script);
         text = this.setConfigMapLabel(text, script);
 
-        if (env == "PRD") {
-            text = this.setConfigMapVarPRD(text, maps);
-        } else if (env == "STG") {
-            text = this.setConfigMapVarSTG(text, maps);
-        }
+        // if (env == "PRD") {
+        //     text = this.setConfigMapVarPRD(text, maps);
+        // } else if (env == "STG") {
+        //     text = this.setConfigMapVarSTG(text, maps);
+        // }
 
         fs.writeFileSync(path, text);
 

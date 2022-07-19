@@ -99,13 +99,13 @@ class Util {
      * @returns 
      */
     prepareVariables(maps) {
-        let variables = "\n";
+        //let variables = "\n";
         maps.forEach(element => {
             let tag = element.p.replace('\"', '').replace('\"', '');
             let value = `\t${tag}: ${element.to}\n`
             variables += value;
         });
-        variables += '\n';
+        //variables += '\n';
         return variables;
     }
 
@@ -178,18 +178,32 @@ class Util {
      */
     setConfigMapVarSTG(text, maps) {
 
-        let index = text.indexOf(this.KEY_BEGIN_STG, 0);
-        if (index > 0) {
-            let end = text.indexOf(this.KEY_END_STG, index);
-            if (end > 0) {
+        let index = text.indexOf("{{- if eq .Values.configmap.env \"prd\" }}");
+        if(index >= 0) {
+            let end = text.indexOf("{{- else if eq .Values.configmap.env \"hml\" }}", index);
+            if(end > 0) {
                 console.log(text.substring(index, end));
                 let found = text.substring(index, end);
-                let replace = this.KEY_BEGIN_STG + "\n" + this.prepareVariables(maps) + "\n" + " ";
-
+                let replace = "{{- if eq .Values.configmap.env \"prd\" }}\n";
+                replace += this.prepareVariables(maps);
+                replace += "\n";
                 text = text.replace(new RegExp(found, "g"), replace);
-                console.log(text);
             }
         }
+        return text;
+
+        // let index = text.indexOf(this.KEY_BEGIN_STG, 0);
+        // if (index > 0) {
+        //     let end = text.indexOf(this.KEY_END_STG, index);
+        //     if (end > 0) {
+        //         console.log(text.substring(index, end));
+        //         let found = text.substring(index, end);
+        //         let replace = this.KEY_BEGIN_STG + "\n" + this.prepareVariables(maps) + "\n" + " ";
+
+        //         text = text.replace(new RegExp(found, "g"), replace);
+        //         console.log(text);
+        //     }
+        // }
         return text;
     }
 
@@ -205,11 +219,11 @@ class Util {
         text = this.setConfigMapName(text, script);
         text = this.setConfigMapLabel(text, script);
 
-        // if (env == "PRD") {
-        //     text = this.setConfigMapVarPRD(text, maps);
-        // } else if (env == "STG") {
-        //     text = this.setConfigMapVarSTG(text, maps);
-        // }
+        if (env == "PRD") {
+            //text = this.setConfigMapVarPRD(text, maps);
+        } else if (env == "STG") {
+            text = this.setConfigMapVarSTG(text, maps);
+        }
 
         fs.writeFileSync(path, text);
 

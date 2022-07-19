@@ -228,7 +228,7 @@ class Util {
         if (env == "PRD") {
             //text = this.setConfigMapVarPRD(text, maps);
         } else if (env == "STG") {
-            text = this.setConfigMapVarSTG(text, maps);
+            //text = this.setConfigMapVarSTG(text, maps);
         }
 
         fs.writeFileSync(path, text);

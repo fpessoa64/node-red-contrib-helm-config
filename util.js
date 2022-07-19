@@ -102,7 +102,7 @@ class Util {
         let variables = "";
         maps.forEach(element => {
             let tag = element.p.replace('\"', '').replace('\"', '');
-            let value = `\t${tag}: ${element.to}\n`
+            let value = `  ${tag}: ${element.to}\n`
             variables += value;
         });
         //variables += '\n';
@@ -228,7 +228,7 @@ class Util {
         if (env == "PRD") {
             //text = this.setConfigMapVarPRD(text, maps);
         } else if (env == "STG") {
-            //text = this.setConfigMapVarSTG(text, maps);
+            text = this.setConfigMapVarSTG(text, maps);
         }
 
         fs.writeFileSync(path, text);

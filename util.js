@@ -178,13 +178,13 @@ class Util {
      */
     setConfigMapVarSTG(text, maps) {
 
-        let index = text.indexOf("{{- if eq .Values.configmap.env \"prd\" }}");
+        let index = text.indexOf("{{- else if eq .Values.configmap.env \"stg\" }}");
         if(index >= 0) {
             let end = text.indexOf("{{- else if eq .Values.configmap.env \"hml\" }}", index);
             if(end > 0) {
                 console.log(text.substring(index, end));
                 let found = text.substring(index, end);
-                let replace = "{{- if eq .Values.configmap.env \"prd\" }}\n";
+                let replace = "{{- else if eq .Values.configmap.env \"stg\" }}\n";
                 replace += this.prepareVariables(maps);
                 replace += "\n";
                 console.log("replace: " + replace)

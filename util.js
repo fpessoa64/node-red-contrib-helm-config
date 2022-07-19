@@ -220,7 +220,7 @@ class Util {
         //var path_model = this.get_dirname() + "/templates/template_configmaps.yaml";
 
         const content = fs.readFileSync(path);
-        //console.log(content.toString("utf-8"));
+        console.log(content.toString("utf-8"));
         var text = content.toString("utf-8");
         text = this.setConfigMapName(text, script);
         text = this.setConfigMapLabel(text, script);

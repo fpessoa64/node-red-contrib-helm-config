@@ -373,13 +373,11 @@ class Util {
 
     set_helpers(script) {__dirname
         console.log(`Script: ${script}`);
-        var path = this.get_dirname() + "/helm/" + script + "/templates/_helpers.yaml";
-        var path_model = this.get_dirname() + "/templates/template_helpers.yaml";
+        var path = this.get_dirname() + "/helm/" + script + "/templates/_helpers.tpl";
+        var path_model = this.get_dirname() + "/templates/template_helpers.tpl";
         console.log(path);
         const content = fs.readFileSync(path_model);
-        // console.log(content.toString("utf-8"));
-        // console.log(this.KEY_SCRIPT_NAME);
-        // console.log(this.KEY_SCRIPT_LABEL);
+  
         var text = content.toString("utf-8");
         text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + ".name");
         text = text.replace(new RegExp(this.KEY_SCRIPT_LABEL, "g"), script + ".labels");

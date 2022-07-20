@@ -156,18 +156,55 @@ class Util {
      * @param {*} maps 
      * @returns 
      */
-    setConfigMapVarPRD(text, maps) {
+    // setConfigMapVarPRD(text, maps) {
 
-        let index = text.indexOf(this.KEY_BEGIN_PRD, 0);
-        if (index > 0) {
-            let end = text.indexOf(this.KEY_END_PRD, index);
-            if (end > 0) {
-                console.log(text.substring(index, end));
+    //     let index = text.indexOf(this.KEY_BEGIN_PRD, 0);
+    //     if (index > 0) {
+    //         let end = text.indexOf(this.KEY_END_PRD, index);
+    //         if (end > 0) {
+    //             console.log(text.substring(index, end));
+    //             let found = text.substring(index, end);
+    //             let replace = this.KEY_BEGIN_PRD + "\n" + this.prepareVariables(maps) + "\n" + " ";
+    //             text = text.replace(new RegExp(found, "g"), replace);
+    //         }
+    //     }
+    //     return text;
+    // }
+
+    setConfigMapVarPRD(text, maps) {
+        console.log("config stg");
+        let index = text.indexOf("{{- if eq .Values.configmap.env \"prd\" }}");
+        if(index >= 0) {
+            let end = text.indexOf("{{- else if eq .Values.configmap.env \"qas\" }}", index);
+            if(end > 0) {
+                console.log("substring: " + text.substring(index, end));
                 let found = text.substring(index, end);
-                let replace = this.KEY_BEGIN_PRD + "\n" + this.prepareVariables(maps) + "\n" + " ";
+                console.log("found: " + found)
+                let replace = "{{- if eq .Values.configmap.env \"prd\" }}\n";
+                replace += this.prepareVariables(maps);
+                replace += "\n";
+                console.log("replace: " + replace)
                 text = text.replace(new RegExp(found, "g"), replace);
+            }else {
+                console.log(" nao encontrei index ");
             }
+        }else {
+            console.log(" nao encontrei index ");
         }
+        return text;
+
+        // let index = text.indexOf(this.KEY_BEGIN_STG, 0);
+        // if (index > 0) {
+        //     let end = text.indexOf(this.KEY_END_STG, index);
+        //     if (end > 0) {
+        //         console.log(text.substring(index, end));
+        //         let found = text.substring(index, end);
+        //         let replace = this.KEY_BEGIN_STG + "\n" + this.prepareVariables(maps) + "\n" + " ";
+
+        //         text = text.replace(new RegExp(found, "g"), replace);
+        //         console.log(text);
+        //     }
+        // }
         return text;
     }
     /**
@@ -226,7 +263,7 @@ class Util {
         text = this.setConfigMapLabel(text, script);
 
         if (env == "PRD") {
-            //text = this.setConfigMapVarPRD(text, maps);
+            text = this.setConfigMapVarPRD(text, maps);
         } else if (env == "STG") {
             text = this.setConfigMapVarSTG(text, maps);
         }

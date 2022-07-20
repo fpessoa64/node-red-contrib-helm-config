@@ -10,34 +10,19 @@ data:
 {{- if eq .Values.configmap.env "prd" }}
   NODE_ENV: "production"
   NODE_RED_ENABLE_SAFE_MODE: "true"
-  NODE_DBHOST: "cosmos.pmenos.com.br"
-  NODE_DBPORT: "1433"
-  NODE_DBUSER: "USERCOSMOS"
-  NODE_DBPASS: "KOS1520MO"
   NODE_RED_ENABLE_PROJECTS: "true"
 {{- else if eq .Values.configmap.env "qas" }}
   NODE_ENV: "production"
   NODE_RED_ENABLE_SAFE_MODE: "true"
-  NODE_DBHOST: "andromeda2.pmenos.com.br"
-  NODE_DBPORT: "1433"
-  NODE_DBUSER: "SYSCOSMOS"
-  NODE_DBPASS: "COSMOS"
   NODE_RED_ENABLE_PROJECTS: "true"
 {{- else if eq .Values.configmap.env "stg" }}
   NODE_ENV: "production"
   NODE_RED_ENABLE_SAFE_MODE: "true"
-  NODE_DBHOST: "andromedastg.pmenos.com.br"
-  NODE_DBPORT: "1433"
-  NODE_DBUSER: "SYSCOSMOS"
   NODE_DBPASS: "COSMOS"
   NODE_RED_ENABLE_PROJECTS: "true"
 {{- else if eq .Values.configmap.env "hml" }}
   NODE_ENV: "production"
   NODE_RED_ENABLE_SAFE_MODE: "true"
-  NODE_DBHOST: "andromeda2.pmenos.com.br"
-  NODE_DBPORT: "1433"
-  NODE_DBUSER: "SYSCOSMOS"
-  NODE_DBPASS: "COSMOS"
   NODE_RED_ENABLE_PROJECTS: "true"
 {{- end }}
 {{- end }}

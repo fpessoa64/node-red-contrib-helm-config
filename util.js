@@ -192,20 +192,6 @@ class Util {
             console.log(" nao encontrei index ");
         }
         return text;
-
-        // let index = text.indexOf(this.KEY_BEGIN_STG, 0);
-        // if (index > 0) {
-        //     let end = text.indexOf(this.KEY_END_STG, index);
-        //     if (end > 0) {
-        //         console.log(text.substring(index, end));
-        //         let found = text.substring(index, end);
-        //         let replace = this.KEY_BEGIN_STG + "\n" + this.prepareVariables(maps) + "\n" + " ";
-
-        //         text = text.replace(new RegExp(found, "g"), replace);
-        //         console.log(text);
-        //     }
-        // }
-        return text;
     }
     /**
      * Configura vraiveis configmap
@@ -234,28 +220,12 @@ class Util {
             console.log(" nao encontrei index ");
         }
         return text;
-
-        // let index = text.indexOf(this.KEY_BEGIN_STG, 0);
-        // if (index > 0) {
-        //     let end = text.indexOf(this.KEY_END_STG, index);
-        //     if (end > 0) {
-        //         console.log(text.substring(index, end));
-        //         let found = text.substring(index, end);
-        //         let replace = this.KEY_BEGIN_STG + "\n" + this.prepareVariables(maps) + "\n" + " ";
-
-        //         text = text.replace(new RegExp(found, "g"), replace);
-        //         console.log(text);
-        //     }
-        // }
-        return text;
     }
 
     set_config_map(script, maps, env) {
         console.log(`Script: ${script}`);
 
         var path = this.get_dirname() + "/helm/" + script + "/templates/configmaps.yaml";
-        //var path_model = this.get_dirname() + "/templates/template_configmaps.yaml";
-
         const content = fs.readFileSync(path);
         console.log(content.toString("utf-8"));
         var text = content.toString("utf-8");

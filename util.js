@@ -7,6 +7,8 @@ class Util {
     KEY_SCRIPT_NAME = "{{SCRIPT_NAME}}";
     KEY_SCRIPT_LABEL = "{{SCRIPT_LABEL}}";
     KEY_SELECTOR_LABELS = "{{SELECTOR_LABELS}}";
+    KEY_CHART= "{{CHART}}"; //"nodered-demo-template-base.chart"
+    KEY_FULL_NAME="{{FULL_NAME}}"; //
     KEY_BEGIN_PRD = "# BEGIN PRD";
     KEY_END_PRD = "# END PRD";
     KEY_BEGIN_STG = "# BEGIN STG";
@@ -368,6 +370,28 @@ class Util {
         console.log(text);
         fs.writeFileSync(path, text);
     }
+
+    set_helpers(script) {__dirname
+        console.log(`Script: ${script}`);
+        var path = this.get_dirname() + "/helm/" + script + "/templates/_helpers.yaml";
+        var path_model = this.get_dirname() + "/templates/template_helpers.yaml";
+        console.log(path);
+        const content = fs.readFileSync(path_model);
+        // console.log(content.toString("utf-8"));
+        // console.log(this.KEY_SCRIPT_NAME);
+        // console.log(this.KEY_SCRIPT_LABEL);
+        var text = content.toString("utf-8");
+        text = text.replace(new RegExp(this.KEY_SCRIPT_NAME, "g"), script + ".name");
+        text = text.replace(new RegExp(this.KEY_SCRIPT_LABEL, "g"), script + ".labels");
+        text = text.replace(new RegExp(this.KEY_CHART, "g"), script + ".chart");
+        text = text.replace(new RegExp(this.KEY_FULL_NAME, "g"), script + ".fullname");
+        text = text.replace(new RegExp(this.KEY_SELECTOR_LABELS, "g"), script + ".selectorLabels");
+
+        //console.log(text);
+        fs.writeFileSync(path, text);
+    }
+
+
 
     /**
      * Configura valores
